@@ -1,0 +1,35 @@
+include ./header.jade
+    block content
+        div.container
+            include ./navbar.jade
+            h1 Game
+            div
+                table.table
+                    tr
+                        th Saison
+                        th Joueur 1
+                        th
+                            button.btn.btn-success Add
+                    tr
+                        td
+                            div.dropdown
+                                button.btn.btn-default#Season(data-toggle="dropdown" ) Saison 1
+                                    span.caret
+                                ul.dropdown-menu(aria-labelledby="dropdownMenu1")
+                                    li Saison 2
+                        td
+                            div Quentin
+                        td
+                            select
+                                option Fabien
+                                option Thomas
+                                option NEW
+script.
+    $(document).ready(function(){ 
+        $.get('/api/players/', function (datas) {
+                for(var player in datas){
+
+                }
+        });
+    });
+            

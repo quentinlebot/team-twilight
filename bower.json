@@ -1,0 +1,23 @@
+{
+  "name": "team-twilight",
+  "description": "Platforme du boardgame TWILIGHT IMPERIUM 3rd EDITION",
+  "main": "server/app.js",
+  "authors": [
+    "Quentin LEBOT"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/quentinlebot/team-twilight",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^3.5.17",
+    "bootstrap": "^3.3.6",
+    "svg-pan-zoom": "^3.2.8",
+    "jquery": "^2.2.4"
+  }
+}

@@ -1,0 +1,156 @@
+include ./header.jade
+    block content
+        div.container
+            include ./navbar.jade
+            h1 Générateur de carte
+        div.container-fluid
+            div.col-sm-2
+                h2 Paramètres
+                p Ecart max sur la somme ressources et influence
+                    input#ecart(type="text" value="10")
+                p Nombre de joueurs
+                p.btn-group
+                    button.btn.btn-success#player(value="5") 5
+                    button.btn.btn-success#player(value="6") 6
+                    button.btn.btn-success#player(value="7") 7
+                    button.btn.btn-success#player(value="8") 8
+            div.col-sm-10
+                map
+
+script.
+    $(document).ready(function(){ 
+        $("button").click(function(){
+            nbplayer = $(this).val();
+            ecart = $("#ecart").val();
+            create_map();
+        });
+        
+    });
+
+    var nbplayer = 5;
+    var ecart = 10;
+
+    // Coordonnées des anomalies
+    var anomalies_en_attente = [];
+    var systems = [];
+
+    var neighbors = [{i:1 , j:-1 , k:0}, {i:1 , j:0 , k:-1}, {i:0 , j:1 , k:-1},
+                {i:-1 , j:1 , k:0}, {i:-1 , j:0 , k:1}, {i:0 , j:-1 , k:1}];
+
+    var neighbors_2 = [{i:1 , j:-1 , k:0}, {i:1 , j:0 , k:-1}, {i:0 , j:1 , k:-1},
+                {i:-1 , j:1 , k:0}, {i:-1 , j:0 , k:1}, {i:0 , j:-1 , k:1},
+                {i:2 , j:-1 , k:-1}, {i:2 , j:0 , k:-2}, {i:1 , j:1 , k:-2}, 
+                {i:0 , j:2 , k:-2}, {i:-1 , j:2 , k:-1}, {i:-2 , j:2 , k:0}, 
+                {i:-2 , j:1 , k:1}, {i:-2 , j:0 , k:2}, {i:-1 , j:-1 , k:2}, 
+                {i:0 , j:-2 , k:2}, {i:1 , j:-2 , k:1}, {i:2 , j:-2 , k:0}];
+
+
+    // Définition des paramètres de la map
+    var paramsNbPlayer = {
+        5:{
+            nb_anomaly: 4, 
+            nb_empty: 8, 
+            nb_regular: 20, 
+            nb_delete: 1,
+            homes: [
+                {i:-2,j:3,k:-1},
+                {i:2,j:1,k:-3},
+                {i:3,j:-3,k:0},
+                {i:0,j:-3,k:3},
+                {i:-3,j:0,k:3}]
+        },
+        6:{
+            nb_anomaly: 4, 
+            nb_empty: 8, 
+            nb_regular: 20, 
+            nb_delete: 2,
+            homes: [
+                {i:0,j:3,k:-3},
+                {i:3,j:0,k:-3},
+                {i:3,j:-3,k:0},
+                {i:0,j:-3,k:3},
+                {i:-3,j:0,k:3},
+                {i:-3,j:3,k:0}]
+        },
+        7:{
+            nb_anomaly: 9, 
+            nb_empty: 12, 
+            nb_regular: 36, 
+            nb_delete: 4,
+            homes: [
+                {i:-2,j:-2,k:4},
+                {i:-4,j:1,k:3},
+                {i:1,j:-4,k:3},
+                {i:0,j:4,k:-4},
+                {i:4,j:0,k:-4},
+                {i:-3,j:4,k:-1},
+                {i:4,j:-3,k:-1}]
+        },
+        8:{
+            nb_anomaly: 9, 
+            nb_empty: 12, 
+            nb_regular: 36, 
+            nb_delete: 5,
+            homes: [
+                {i:4,j:-4,k:0},
+                {i:-4,j:4,k:0},
+                {i:2,j:2,k:-4},
+                {i:-2,j:-2,k:4},
+                {i:-4,j:1,k:3},
+                {i:1,j:-4,k:3},
+                {i:-1,j:4,k:-3},
+                {i:4,j:-1,k:-3}]
+        }};
+
+    var SVG_SIZE = $(window).height();
+    create_map();
+
+    function create_map (){
+        reset_map();
+        nexus = false;
+        
+        var svgContainer = d3.select("map")
+            .append("svg")
+            .attr("id", "svg_map")
+            .attr("width", "100%")
+            .attr("height", SVG_SIZE*0.76);
+
+        var range = 4;
+        if(nbplayer === undefined) nbplayer = 5;
+        if(nbplayer > 6) range = 5;
+
+        var TILE_SIZE = SVG_SIZE / (((range*2)-1)*Math.sqrt(3)*1.05);
+
+        var i_param = paramsNbPlayer[nbplayer];
+
+        $.get('/api/tiles/getRandom/' + nbplayer
+            , function (tiles) {
+                draw_tile(range, tiles, TILE_SIZE, svgContainer);
+                
+                window.zoomTiger = svgPanZoom('#svg_map', {
+                    zoomEnabled: true,
+                    controlIconsEnabled: true,
+                    fit: true,
+                    center: true,
+                    panEnabled: true
+                }); 
+            });
+    }
+
+    function reset_map () {
+        systems = [];
+        d3.selectAll("svg").remove();
+    }  
+
+    function draw_tile(range, tiles, tile_size, svg){
+        var width = tile_size *2;
+        var height = Math.sqrt(3)*tile_size;
+        for (var i in tiles) {
+            svg.append("svg:image")
+                .attr("xlink:href", tiles[i].path)
+                .attr("width",      width)
+                .attr("height",     height)
+                .attr("x",          tiles[i].x*tile_size)
+                .attr("y",          tiles[i].y*tile_size);
+        };
+    }

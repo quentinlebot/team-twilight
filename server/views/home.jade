@@ -1,0 +1,22 @@
+﻿include ./header.jade
+    block content
+        div.container
+            include ./navbar.jade
+            h1 Scores Saison 1
+            table.table.table-striped
+                thead
+                    tr
+                        th Rang
+                        th Nom
+                        th Points
+                        th Détails
+                        th Nombre de parties
+                tbody
+                    tr
+                    each data in datas
+                        tr
+                            td #{data.rang}
+                            td #{data.name}
+                            td #{data.score}
+                            td #{data.detail}
+                            td #{data.nb_game}
