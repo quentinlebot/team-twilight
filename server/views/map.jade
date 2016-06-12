@@ -72,11 +72,19 @@ script.
         for (var i in tiles) {
             if(tiles[i] != null){
                 svg.append("svg:image")
-                    .attr("xlink:href", tiles[i].tile.path)
+                    .attr("xlink:href", tiles[i]._tile.path)
                     .attr("width",      width)
                     .attr("height",     height)
                     .attr("x",          tiles[i].x*tile_size)
                     .attr("y",          tiles[i].y*tile_size);
+                    
+                svg.append("svg:text")
+                    .attr("x",          tiles[i].x*tile_size+tile_size)
+                    .attr("y",          tiles[i].y*tile_size+tile_size)
+                    .attr("fill", "red")
+                    .attr("font-size", "20px")
+                    .attr("font-weight", "bold")
+                    .text(i);
             }
         };
     }
