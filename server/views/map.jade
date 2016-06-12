@@ -29,79 +29,6 @@ script.
 
     var nbplayer = 5;
     var ecart = 10;
-
-    // Coordonnées des anomalies
-    var anomalies_en_attente = [];
-    var systems = [];
-
-    var neighbors = [{i:1 , j:-1 , k:0}, {i:1 , j:0 , k:-1}, {i:0 , j:1 , k:-1},
-                {i:-1 , j:1 , k:0}, {i:-1 , j:0 , k:1}, {i:0 , j:-1 , k:1}];
-
-    var neighbors_2 = [{i:1 , j:-1 , k:0}, {i:1 , j:0 , k:-1}, {i:0 , j:1 , k:-1},
-                {i:-1 , j:1 , k:0}, {i:-1 , j:0 , k:1}, {i:0 , j:-1 , k:1},
-                {i:2 , j:-1 , k:-1}, {i:2 , j:0 , k:-2}, {i:1 , j:1 , k:-2}, 
-                {i:0 , j:2 , k:-2}, {i:-1 , j:2 , k:-1}, {i:-2 , j:2 , k:0}, 
-                {i:-2 , j:1 , k:1}, {i:-2 , j:0 , k:2}, {i:-1 , j:-1 , k:2}, 
-                {i:0 , j:-2 , k:2}, {i:1 , j:-2 , k:1}, {i:2 , j:-2 , k:0}];
-
-
-    // Définition des paramètres de la map
-    var paramsNbPlayer = {
-        5:{
-            nb_anomaly: 4, 
-            nb_empty: 8, 
-            nb_regular: 20, 
-            nb_delete: 1,
-            homes: [
-                {i:-2,j:3,k:-1},
-                {i:2,j:1,k:-3},
-                {i:3,j:-3,k:0},
-                {i:0,j:-3,k:3},
-                {i:-3,j:0,k:3}]
-        },
-        6:{
-            nb_anomaly: 4, 
-            nb_empty: 8, 
-            nb_regular: 20, 
-            nb_delete: 2,
-            homes: [
-                {i:0,j:3,k:-3},
-                {i:3,j:0,k:-3},
-                {i:3,j:-3,k:0},
-                {i:0,j:-3,k:3},
-                {i:-3,j:0,k:3},
-                {i:-3,j:3,k:0}]
-        },
-        7:{
-            nb_anomaly: 9, 
-            nb_empty: 12, 
-            nb_regular: 36, 
-            nb_delete: 4,
-            homes: [
-                {i:-2,j:-2,k:4},
-                {i:-4,j:1,k:3},
-                {i:1,j:-4,k:3},
-                {i:0,j:4,k:-4},
-                {i:4,j:0,k:-4},
-                {i:-3,j:4,k:-1},
-                {i:4,j:-3,k:-1}]
-        },
-        8:{
-            nb_anomaly: 9, 
-            nb_empty: 12, 
-            nb_regular: 36, 
-            nb_delete: 5,
-            homes: [
-                {i:4,j:-4,k:0},
-                {i:-4,j:4,k:0},
-                {i:2,j:2,k:-4},
-                {i:-2,j:-2,k:4},
-                {i:-4,j:1,k:3},
-                {i:1,j:-4,k:3},
-                {i:-1,j:4,k:-3},
-                {i:4,j:-1,k:-3}]
-        }};
-
     var SVG_SIZE = $(window).height();
     create_map();
 
@@ -121,12 +48,9 @@ script.
 
         var TILE_SIZE = SVG_SIZE / (((range*2)-1)*Math.sqrt(3)*1.05);
 
-        var i_param = paramsNbPlayer[nbplayer];
-
-        $.get('/api/tiles/getRandom/' + nbplayer
-            , function (tiles) {
-                draw_tile(range, tiles, TILE_SIZE, svgContainer);
-                
+        $.get('/api/map/new/' + nbplayer
+            , function (res) {
+                draw_tile(range, res.map.tiles, TILE_SIZE, svgContainer);
                 window.zoomTiger = svgPanZoom('#svg_map', {
                     zoomEnabled: true,
                     controlIconsEnabled: true,
@@ -146,11 +70,13 @@ script.
         var width = tile_size *2;
         var height = Math.sqrt(3)*tile_size;
         for (var i in tiles) {
-            svg.append("svg:image")
-                .attr("xlink:href", tiles[i].path)
-                .attr("width",      width)
-                .attr("height",     height)
-                .attr("x",          tiles[i].x*tile_size)
-                .attr("y",          tiles[i].y*tile_size);
+            if(tiles[i] != null){
+                svg.append("svg:image")
+                    .attr("xlink:href", tiles[i].tile.path)
+                    .attr("width",      width)
+                    .attr("height",     height)
+                    .attr("x",          tiles[i].x*tile_size)
+                    .attr("y",          tiles[i].y*tile_size);
+            }
         };
     }

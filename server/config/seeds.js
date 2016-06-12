@@ -1,48 +1,28 @@
-﻿var User = require('../api/user/user.model');
-var Tile = require('../api/tile/tile.model');
-var Race = require('../api/race/race.model');
-var config = require('./environment');
+﻿var User =      require('../api/user/user.model');
+var Tile =      require('../api/tile/tile.model');
+var TilePick =  require('../api/tilePick/tilePick.model');
+var Race =      require('../api/race/race.model');
+var GameMap =   require('../api/map/map.model');
+var config =    require('./environment');
 
 User.find({}).remove(function () {
     User.create({
         provider: 'local',
         role: config.userRoles[config.adminRoleIndex],
         login: 'Admin',
-        password: 'Passw0rd2015Twilight'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'Quentin',
-        password: 'admin'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'Fabien',
-        password: 'admin'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'Anthony',
-        password: 'admin'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'Thomas',
-        password: 'admin'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'Georges',
-        password: 'admin'
-    },{
-        provider: 'local',
-        role: config.userRoles[config.defaultRoleIndex],
-        login: 'J-F',
-        password: 'admin'
+        password: 'password'
     }, function () {
         console.log('Création des utilisateurs');
     }
     );
+});
+
+TilePick.find({}).remove(function(){
+    console.log('Suppression des tilesPick');
+});
+
+GameMap.find({}).remove(function(){
+    console.log('Suppression des maps');
 });
 
 
@@ -55,18 +35,18 @@ Tile.find({}).remove(function () {
             influence: 6,
             techno: ''
         }, {
+            name: Tile.HOME,
+            path: 'Home.gif',
+            type: Tile.OTHER,
+            ressource: 0,
+            influence: 0,
+            techno: ''
+        }, {
             name: Tile.NEXUS,
             path: 'WHNexus.gif',
             type: Tile.OTHER,
             ressource: 0,
             influence: 3,
-            techno: ''
-        }, {
-            name: 'The Ghosts of Creuss',
-            path: 'GhostOfCreuss.gif',
-            type: Tile.OTHER,
-            ressource: 4,
-            influence: 2,
             techno: ''
         }, {
             name: 'Asteroid Field',
@@ -292,12 +272,12 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 0,
             techno: ''
-        }, {
-            name: Tile.NEUTRAL,
-            path: 'Home.gif',
+        },{
+            name: 'The Ghosts of Creuss',
+            path: 'GhostOfCreuss.gif',
             type: Tile.HOME,
-            ressource: 0,
-            influence: 0,
+            ressource: 4,
+            influence: 2,
             techno: ''
         },{
             name: 'Federation of Sol',
@@ -693,18 +673,8 @@ Tile.find({}).remove(function () {
         tile.path = tile.build_Path(systems[data].path);
         tile.ressource = systems[data].ressource;
         tile.influence = systems[data].influence;
-        tile.x = 0;
-        tile.y = 0;
-        tile.i = 0;
-        tile.j = 0;
-        tile.k = 0;
-        if(systems[data].name === Tile.NEXUS){
-            tile.x = -9;
-            tile.y = -5;
-        }
         tile.save();
     };
-
     console.log('Création des systemes');
 });
 

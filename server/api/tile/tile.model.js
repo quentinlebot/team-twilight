@@ -7,12 +7,7 @@ var TileSchema = new Schema({
     type: String,
     ressource: Number,
     influence: Number,
-    techno: String,
-    x:Number,
-    y:Number,
-    i:Number,
-    j:Number,
-    k:Number
+    techno: String
 });
 
 TileSchema.statics.EMPTY = 			'empty';

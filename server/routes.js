@@ -4,10 +4,12 @@ var auth = require('./auth/auth.service');
 module.exports = function (app) {
     
     app.use('/', require('./auth'));
-    app.use('/api/users',   require('./api/user'));
-    app.use('/api/tiles',   require('./api/tile'));
-    app.use('/api/players', require('./api/player'));
-    app.use('/api/races', require('./api/race'));
+    app.use('/api/users',       require('./api/user'));
+    app.use('/api/tiles',       require('./api/tile'));
+    app.use('/api/players',     require('./api/player'));
+    app.use('/api/races',       require('./api/race'));
+    app.use('/api/map',         require('./api/map'));
+    app.use('/api/tilePick',    require('./api/tilePick'));
 
     app.get('/map', function (req, res){
     	res.render('map');
