@@ -5,6 +5,8 @@ var Race =      require('../api/race/race.model');
 var GameMap =   require('../api/map/map.model');
 var config =    require('./environment');
 
+var _ =         require('lodash');
+
 User.find({}).remove(function () {
     User.create({
         provider: 'local',
@@ -27,7 +29,7 @@ GameMap.find({}).remove(function(){
 
 
 Tile.find({}).remove(function () {
-    var systems = [{
+    var others = [{
             name: Tile.MECATOL,
             path: 'MecatolRex.gif',
             type: Tile.OTHER,
@@ -48,7 +50,8 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 3,
             techno: ''
-        }, {
+    }]; 
+    var anomalys = [{
             name: 'Asteroid Field',
             path: 'AsteroidField.gif',
             type: Tile.ANOMALY,
@@ -160,7 +163,8 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 0,
             techno: ''
-        }, {
+    }]; 
+    var emptys = [{
             name: 'Vide',
             path: 'Vide.gif',
             type: Tile.EMPTY,
@@ -272,7 +276,8 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 0,
             techno: ''
-        },{
+    }];
+    var homes =[{
             name: 'The Ghosts of Creuss',
             path: 'GhostOfCreuss.gif',
             type: Tile.HOME,
@@ -391,7 +396,8 @@ Tile.find({}).remove(function () {
             ressource: 3,
             influence: 5,
             techno: ''
-        }, {
+    }];
+    var regulars = [{
             name: 'Abyz et Fria',
             path: 'Abyz&Fria.gif',
             type: Tile.REGULAR,
@@ -664,8 +670,13 @@ Tile.find({}).remove(function () {
             ressource: 1,
             influence: 2,
             techno: ''
-        }];
-    
+    }];
+    var systems = others;
+    var systems = _.concat(systems, emptys);
+    var systems = _.concat(systems, anomalys);
+    var systems = _.concat(systems, homes);
+    var systems = _.concat(systems, regulars);
+
     for (var data in systems) {
         var tile = new Tile();
         tile.name = systems[data].name;
@@ -675,7 +686,11 @@ Tile.find({}).remove(function () {
         tile.influence = systems[data].influence;
         tile.save();
     };
-    console.log('Création des systemes');
+    console.log('Création des systemes TOTAL :'+systems.length+
+        ' Autres :'+    others.length+
+        ' Mères :'+     homes.length+
+        ' Reguliers :'+ regulars.length+
+        ' Vides :'+     emptys.length);
 });
 
 Race.find({}).remove(function () {

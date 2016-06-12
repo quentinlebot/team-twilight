@@ -123,6 +123,10 @@ exports.show = function(req, res) {
 
 function getCoordoneArray(nbPlayer){
     var result = [];
+    var ring1 = [];
+    var ring2 = [];
+    var ring3 = [];
+    var ring4 = [];
     var range = 4;
     if(nbPlayer>6)
         range = 5;
@@ -132,11 +136,23 @@ function getCoordoneArray(nbPlayer){
                 if(i+j+k === 0){
                     var pos = {i:i,j:j,k:k};
                     if(!isHome(pos, nbPlayer) && !isMecatol(pos))
-                        result.push(pos);
+                        if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 2)
+                            ring1.push(pos);
+                        else if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 4)
+                            ring2.push(pos);
+                        else if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 6)
+                            ring3.push(pos);
+                        else if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 8)
+                            ring4.push(pos);
                 }
             };
         };
     };
+    result = ring1;
+    result = _.concat(result, ring2);
+    result = _.concat(result, ring3);
+    if(ring4.length != 0)
+        result = _.concat(result, ring4);
     return result;
 }
 
