@@ -10,15 +10,15 @@ var TileSchema = new Schema({
     techno: String
 });
 
-TileSchema.statics.EMPTY = 			'empty';
-TileSchema.statics.REGULAR = 		'regular';
-TileSchema.statics.ANOMALY = 		'anomaly';
-TileSchema.statics.HOME = 			'home';
-TileSchema.statics.OTHER = 			'other';
+TileSchema.statics.EMPTY =          'empty';
+TileSchema.statics.REGULAR =        'regular';
+TileSchema.statics.ANOMALY =        'anomaly';
+TileSchema.statics.HOME =           'home';
+TileSchema.statics.OTHER =          'other';
 
-TileSchema.statics.MECATOL = 		'Mecatol Rex';
-TileSchema.statics.NEXUS = 			'Wormhole Nexus';
-TileSchema.statics.NEUTRAL =		'Neutral';
+TileSchema.statics.MECATOL =        'Mecatol Rex';
+TileSchema.statics.NEXUS =          'Wormhole Nexus';
+TileSchema.statics.NEUTRAL =        'Neutral';
 
 
 TileSchema.methods.build_Path = function (file_name){

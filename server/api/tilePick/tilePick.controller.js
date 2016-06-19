@@ -29,25 +29,10 @@ exports.getGameTiles = function(nbPlayer, cb) {
                 randomTiles = _.concat(randomTiles, regulars);
                 randomTiles = _.shuffle(randomTiles);
 
-                for (var i = 0; i < nbDelete; i++) {
-                    randomTiles.splice(Math.random() * randomTiles.length ,1) ;
-                }
-
-                var coordoneArray = getCoordoneArray(nbPlayer);
-                coordoneArray = _.shuffle(coordoneArray);
-
-                randomTiles.forEach(function(tile){
-                    var tileP = new TilePick();
-                    var coor = coordoneArray.pop();
-                    tileP.x = (coor.i - coor.j / 2 - coor.k / 2);
-                    tileP.y = (coor.k - coor.j) * Math.sqrt(3) / 2;
-                    tileP.i = coor.i;
-                    tileP.j = coor.j;
-                    tileP.k = coor.k;
-                    tileP.tile = tile;
-                    randomTilePick.push(tileP);
+                var coordoneArray = getCoordArray(nbPlayer);
+                coordoneArray.forEach(function(coor){
+                    randomTilePick.push(buildTileP(randomTiles.shift(), coor));
                 });
-
                 return cb(randomTilePick);
             });
         });
@@ -63,6 +48,17 @@ exports.getBaseTiles = function(nbPlayer, cb){
     });
 };
 
+function buildTileP(tile, coor){
+    var tileP = new TilePick();
+    tileP.x = (coor.i - coor.j / 2 - coor.k / 2);
+    tileP.y = (coor.k - coor.j) * Math.sqrt(3) / 2;
+    tileP.i = coor.i;
+    tileP.j = coor.j;
+    tileP.k = coor.k;
+    tileP._tile = tile;
+    return tileP;
+}
+
 function handleError(res, err) {
     console.log(err);
     return res.send(500, err);
@@ -72,7 +68,7 @@ function addHomeSystem(lst, nbPlayer, cb){
     TileCtrl.getFromName(Tile.HOME , function (home) {
         for (var i = 0; i < nbPlayer; i++) {
             var tilePick = new TilePick();
-            tilePick.tile = home,
+            tilePick._tile = home,
             tilePick.x = (TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].i-TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].j/2-TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].k/2),
             tilePick.y = (TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].k-TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].j)*Math.sqrt(3)/2,
             tilePick.i = TilePick.PARAMS_NBPLAYER[nbPlayer].homes[i].i,
@@ -100,12 +96,12 @@ function addOtherSystem(lst, cb){
 
 function buildTileProp(tile, cb){
     var tileP = new TilePick();
-    tileP.tile = tile;
+    tileP._tile = tile;
     tileP.i = 0;
     tileP.j = 0;
     tileP.k = 0;
     tileP.x = 0;
-    tileP.Y = 0;
+    tileP.y = 0;
     if(tile.name == Tile.NEXUS){
         tileP.x = -8;
         tileP.y = -5;
@@ -121,7 +117,7 @@ exports.show = function(req, res) {
     });
 };
 
-function getCoordoneArray(nbPlayer){
+function getCoordArray(nbPlayer){
     var result = [];
     var ring1 = [];
     var ring2 = [];
@@ -136,6 +132,7 @@ function getCoordoneArray(nbPlayer){
                 if(i+j+k === 0){
                     var pos = {i:i,j:j,k:k};
                     if(!isHome(pos, nbPlayer) && !isMecatol(pos))
+                    {
                         if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 2)
                             ring1.push(pos);
                         else if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 4)
@@ -144,6 +141,7 @@ function getCoordoneArray(nbPlayer){
                             ring3.push(pos);
                         else if(Math.abs(i)+Math.abs(j)+Math.abs(k) == 8)
                             ring4.push(pos);
+                    }
                 }
             };
         };
@@ -157,12 +155,12 @@ function getCoordoneArray(nbPlayer){
 }
 
 function isHome(coord, nbPlayer){
-    var res = false;
+    var result = false;
     TilePick.PARAMS_NBPLAYER[nbPlayer].homes.forEach(function(home){
         if(home.i == coord.i && home.j == coord.j && home.k == coord.k)
-            res = true;
+            if(!result) result = true;
     });
-    return res;
+    return result;
 }
 
 function isMecatol(coord){

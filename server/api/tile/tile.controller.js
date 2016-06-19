@@ -13,7 +13,7 @@ exports.getTiles= function(type, nb, cb){
     var result = [];
     Tile.find({type: type} , function (err, tiles) {
         if(err) { return handleError(res, err); }
-        for (var i = 1; i <= nb; i++) {
+        for (var i = 0; i < nb; i++) {
             var random_i = Math.floor(Math.random() * tiles.length);
             result.push(tiles[random_i]);
             tiles.splice(random_i, 1);

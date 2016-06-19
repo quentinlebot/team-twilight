@@ -2,7 +2,7 @@ var mongoose =  require('mongoose');
 var Schema =    mongoose.Schema;
 
 var TilePickSchema = new Schema({
-    tile: { type: mongoose.Schema.Types.ObjectId, ref: 'Tile' },
+    _tile: { type: mongoose.Schema.Types.ObjectId, ref: 'Tile' },
     x:Number,
     y:Number,
     i:Number,
@@ -23,8 +23,6 @@ TilePickSchema.statics.NEIGHBORS_RANGE_2 = [
                 {i:0 , j:2 , k:-2}, {i:-1 , j:2 , k:-1}, {i:-2 , j:2 , k:0}, 
                 {i:-2 , j:1 , k:1}, {i:-2 , j:0 , k:2}, {i:-1 , j:-1 , k:2}, 
                 {i:0 , j:-2 , k:2}, {i:1 , j:-2 , k:1}, {i:2 , j:-2 , k:0}];
-
-TilePickSchema.statics.MECATOL_NEIGHBORS = this.NEIGHBORS_RANGE_1;
 
 TilePickSchema.statics.PARAMS_NBPLAYER = {
     5:{

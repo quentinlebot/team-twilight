@@ -1,11 +1,15 @@
-﻿var User =      require('../api/user/user.model');
-var Tile =      require('../api/tile/tile.model');
-var TilePick =  require('../api/tilePick/tilePick.model');
-var Race =      require('../api/race/race.model');
-var GameMap =   require('../api/map/map.model');
-var config =    require('./environment');
+﻿var User =          require('../api/user/user.model');
+var Tile =          require('../api/tile/tile.model');
+var TilePick =      require('../api/tilePick/tilePick.model');
+var Race =          require('../api/race/race.model');
+var GameMap =       require('../api/map/map.model');
+var Player =        require('../api/player/player.model');
+var Game =          require('../api/game/game.model');
+var Season =        require('../api/season/season.model');
+var GameResult =    require('../api/gameResult/gameResult.model');
+var config =        require('./environment');
 
-var _ =         require('lodash');
+var _ =             require('lodash');
 
 User.find({}).remove(function () {
     User.create({
@@ -26,7 +30,6 @@ TilePick.find({}).remove(function(){
 GameMap.find({}).remove(function(){
     console.log('Suppression des maps');
 });
-
 
 Tile.find({}).remove(function () {
     var others = [{
