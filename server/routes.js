@@ -10,6 +10,9 @@ module.exports = function (app) {
     app.use('/api/races',       require('./api/race'));
     app.use('/api/map',         require('./api/map'));
     app.use('/api/tilePick',    require('./api/tilePick'));
+    app.use('/api/season',        require('./api/season'));
+    app.use('/api/game',        require('./api/game'));
+    app.use('/api/gameResult',  require('./api/gameResult'));
 
     app.get('/map', function (req, res){
     	res.render('map');

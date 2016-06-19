@@ -768,3 +768,212 @@ Race.find({}).remove(function () {
     });
 console.log('Création des races');
 });
+
+Player.find({}).remove(function(){
+    console.log('Création des joueurs');
+    Player.create({
+        _id : 1,
+        name : 'Cerise'
+    }, {
+        _id : 2 ,
+        name : 'Tony'
+    }, {
+        _id : 3 ,
+        name : 'Thomas'
+    }, {
+        _id : 4 ,
+        name : 'J-F'
+    }, {
+        _id : 5 ,
+        name : 'Yohan'
+    }, {
+        _id : 6 ,
+        name : 'Quentin'
+    }, {
+        _id : 7 ,
+        name : 'Georges'
+    }, {
+        _id : 8 ,
+        name : 'Quentin 2 (voisin)'
+    });
+});
+
+Season.find({}).remove(function(){
+    console.log('Création des saisons');
+    Season.create({
+        _id:1,
+        name: "Saison 1",
+        begin:new Date(2015, 06, 01),
+        end:null
+    });
+});
+
+Game.find({}).remove(function(){
+    console.log('Création des games');
+    Game.create({
+        _id:1,
+        _season:1
+    },{
+        _id:2,
+        _season:1
+    },{
+        _id:3,
+        _season:1
+    },{
+        _id:4,
+        _season:1
+    },{
+        _id:5,
+        _season:1
+    });
+});
+
+GameResult.find({}).remove(function(){
+    console.log('Création des resultats des games');
+    GameResult.create({
+        _game:1,
+        _player:6,  //Quentin
+        _race:14,   //Nekro
+        point:0
+    },{
+        _game:1,
+        _player:3,  //Thomas
+        _race:17,   //Arborec
+        point:0
+    },{
+        _game:1,
+        _player:1,  //Fabien
+        _race:13,   //Muat
+        point:0
+    },{
+        _game:1,
+        _player:2,  //Tony
+        _race:3,   //Haccan
+        point:0
+    },{
+        _game:1,
+        _player:7,  //Georges
+        _race:9,   //Xxcha
+        point:0
+    },{
+        _game:2,
+        _player:4,  //J-F
+        _race:1,   //Sol
+        point:0
+    },{
+        _game:2,
+        _player:3,  //Thomas
+        _race:5,   //Mentak
+        point:0
+    },{
+        _game:2,
+        _player:1,  //Fabien
+        _race:6,   //Naalu
+        point:0
+    },{
+        _game:2,
+        _player:2,  //Tony
+        _race:10,   //Yssaril
+        point:0
+    },{
+        _game:2,
+        _player:7,  //Georges
+        _race:3,   //Haccan
+        point:0
+    },{
+        _game:3,
+        _player:2,  //Tony
+        _race:1,   //Sol
+        point:0
+    },{
+        _game:3,
+        _player:1,  //Fabien
+        _race:5,   //Mentak
+        point:0
+    },{
+        _game:3,
+        _player:3,  //Thomas
+        _race:17,   //Arborec
+        point:0
+    },{
+        _game:3,
+        _player:7,  //Georges
+        _race:10,   //Yssaril
+        point:0
+    },{
+        _game:3,
+        _player:5,  //Yohan
+        _race:3,   //Haccan
+        point:0
+    },{
+        _game:3,
+        _player:6,  //Quentin
+        _race:11,   //Yin
+        point:0
+    },{
+        _game:3,
+        _player:4,  //JF
+        _race:9,   //Xxcha
+        point:0
+    },{
+        _game:4,
+        _player:4,  //JF
+        _race:9,   //Xxcha
+        point:0
+    },{
+        _game:4,
+        _player:1,  //Fabien
+        _race:15,   //Winuu
+        point:0
+    },{
+        _game:4,
+        _player:2,  //Tony
+        _race:14,   //Nekro
+        point:0
+    },{
+        _game:4,
+        _player:3,  //Thomas
+        _race:6,   //Naalu
+        point:0
+    },{
+        _game:4,
+        _player:5,  //Yohan
+        _race:4,   //L1Z1X
+        point:0
+    },{
+        _game:4,
+        _player:6,  //Quentin
+        _race:11,   //Yin
+        point:0
+    },{
+        _game:5,
+        _player:7,  //George
+        _race:8,   //Jol Nar
+        point:0
+    },{
+        _game:5,
+        _player:6,  //Quentin
+        _race:3,   //Haccan
+        point:0
+    },{
+        _game:5,
+        _player:3,  //Thomas
+        _race:10,   //Yssaril
+        point:0
+    },{
+        _game:5,
+        _player:4,  //JF
+        _race:4,   //L1Z1X
+        point:0
+    },{
+        _game:5,
+        _player:2,  //Tony
+        _race:17,   //Arborec
+        point:0
+    },{
+        _game:5,
+        _player:8,  //Quentin2voisin
+        _race:2,   //Letnev
+        point:0
+    });
+});
