@@ -4,17 +4,32 @@ include ./header.jade
             include ./navbar.jade
             h1 Générateur de carte
         div.container-fluid
-            div.col-sm-2
-                h2 Paramètres
-                p Ecart max sur la somme ressources et influence
-                    input#ecart(type="text" value="10")
-                p Nombre de joueurs
-                p.btn-group
-                    button.btn.btn-success#player(value="5") 5
-                    button.btn.btn-success#player(value="6") 6
-                    button.btn.btn-success#player(value="7") 7
-                    button.btn.btn-success#player(value="8") 8
-            div.col-sm-10
+            div.col-sm-3
+                div.row
+                    h2 Paramètres
+                    p Ecart max sur la somme ressources et influence
+                    p
+                        input#ecart(type="text" value="10")
+                    h2 Nombre de joueurs
+                    p.btn-group
+                        button.btn.btn-success#player(value="5") 5
+                        button.btn.btn-success#player(value="6") 6
+                        button.btn.btn-success#player(value="7") 7
+                        button.btn.btn-success#player(value="8") 8
+                div.row
+                    h2 Propriétés de la carte
+                    div.panel.panel-default
+                        div.panel-heading Répartition ressources et influences
+                            p Ecart max constaté :
+                                strong#ecart_actual
+                        table.table.table-over#stats
+                            thead
+                                th Position
+                                th Ressources
+                                th Influences
+                                th Total
+                            tbody
+            div.col-sm-9
                 map
 
 script.
@@ -40,7 +55,7 @@ script.
             .append("svg")
             .attr("id", "svg_map")
             .attr("width", "100%")
-            .attr("height", SVG_SIZE*0.76);
+            .attr("height", SVG_SIZE*0.85);
 
         var range = 4;
         if(nbplayer === undefined) nbplayer = 5;
@@ -48,25 +63,43 @@ script.
 
         var TILE_SIZE = SVG_SIZE / (((range*2)-1)*Math.sqrt(3)*1.05);
 
-        $.get('/api/map/new/' + nbplayer
-            , function (res) {
-                draw_tile(range, res.map._tiles, TILE_SIZE, svgContainer);
-                window.zoomTiger = svgPanZoom('#svg_map', {
-                    zoomEnabled: true,
-                    controlIconsEnabled: true,
-                    fit: true,
-                    center: true,
-                    panEnabled: true
-                }); 
-            });
+        $.get('/api/map/new/' + nbplayer, function (res) {
+            draw_tile(res.map.stats, res.map._tiles, TILE_SIZE, svgContainer);
+            draw_stats(res.map.stats);
+            window.zoomTiger = svgPanZoom('#svg_map', {
+                zoomEnabled: true,
+                controlIconsEnabled: true,
+                fit: true,
+                center: true,
+                panEnabled: true
+            }); 
+        });
+        
     }
 
     function reset_map () {
         systems = [];
         d3.selectAll("svg").remove();
-    }  
+    }
 
-    function draw_tile(range, tiles, tile_size, svg){
+    function draw_stats(stats){
+        $("#stats tbody").empty();
+        stats.datas.forEach(function(item){
+            var classToAdd = "";
+            var index = stats.datas.indexOf(item); 
+            if(index == stats.minIndex)
+                classToAdd = "danger";
+            else if(index == stats.maxIndex)
+                classToAdd = "success";
+            $("#stats").append("<tr class="+classToAdd+"><td>"+index+"</td>"+
+                                "<td>"+item.ressource+"</td>"+
+                                "<td>"+item.influence+"</td>"+
+                                "<td>"+(item.ressource+item.influence)+"</td></tr>");
+        });
+        $("#ecart_actual").text(stats.gap);
+    }
+
+    function draw_tile(stats, tiles, tile_size, svg){
         var width = tile_size *2;
         var height = Math.sqrt(3)*tile_size;
         for (var i in tiles) {
@@ -77,13 +110,61 @@ script.
                     .attr("height",     height)
                     .attr("x",          tiles[i].x*tile_size)
                     .attr("y",          tiles[i].y*tile_size);
-                svg.append("svg:text")
-                    .attr("x",          tiles[i].x*tile_size+tile_size)
-                    .attr("y",          tiles[i].y*tile_size+tile_size)
-                    .attr("fill", "red")
-                    .attr("font-size", "20px")
-                    .attr("font-weight", "bold")
-                    .text(i); 
+                if(i < stats.datas.length){
+                    var color;
+                    var index = stats.datas.indexOf(stats.datas[i]);
+                    if(index == stats.minIndex)
+                        color = "#f2dede";
+                    else if(index == stats.maxIndex)
+                        color = "#dff0d8";
+                    else
+                        color = "gray";
+                    svg.append("svg:circle")
+                        .attr("cx",          tiles[i].x*tile_size+tile_size)
+                        .attr("cy",          tiles[i].y*tile_size+Math.sqrt(3)*0.25*tile_size)
+                        .attr("fill", color)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 3)
+                        .attr("r", tile_size/2.5);
+                    svg.append("svg:text")
+                        .attr("x",          tiles[i].x*tile_size+tile_size-16)
+                        .attr("y",          tiles[i].y*tile_size+Math.sqrt(3)*0.25*tile_size+16)
+                        .attr("fill", "black")
+                        .attr("font-size", "32px")
+                        .attr("font-weight", "bold")
+                        .text(stats.datas[i].ressource+stats.datas[i].influence);
+
+                    svg.append("svg:circle")
+                        .attr("cx",          tiles[i].x*tile_size+0.65*tile_size)
+                        .attr("cy",          tiles[i].y*tile_size+Math.sqrt(3)*0.65*tile_size)
+                        .attr("fill", "black")
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 3)
+                        .attr("r", tile_size/3);
+                    svg.append("svg:text")
+                        .attr("x",          tiles[i].x*tile_size+0.65*tile_size-14)
+                        .attr("y",          tiles[i].y*tile_size+Math.sqrt(3)*0.65*tile_size+14)
+                        .attr("fill", "green")
+                        .attr("font-size", "28px")
+                        .attr("font-weight", "bold")
+                        .text(stats.datas[i].influence);
+
+                    svg.append("svg:circle")
+                        .attr("cx",          tiles[i].x*tile_size+1.35*tile_size)
+                        .attr("cy",          tiles[i].y*tile_size+Math.sqrt(3)*0.65*tile_size)
+                        .attr("fill", "black")
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 3)
+                        .attr("r", tile_size/3);
+                    svg.append("svg:text")
+                        .attr("x",          tiles[i].x*tile_size+1.35*tile_size-14)
+                        .attr("y",          tiles[i].y*tile_size+Math.sqrt(3)*0.65*tile_size+14)
+                        .attr("fill", "black")
+                        .attr("fill", "red")
+                        .attr("font-size", "28px")
+                        .attr("font-weight", "bold")
+                        .text(stats.datas[i].ressource);
+                }
             }
         };
     }

@@ -17,6 +17,7 @@ exports.new = function(req, res) {
                 TilePickCtrl.save(new_map._tiles, function(){
                     GameMap.create(new_map, function(err, map) {
                         if(err) { return handleError(res, err); }
+                        map.stats = buildStats(map, nbPlayer);
                         return res.status(201).json({map:map});
                     });
                 });
@@ -121,6 +122,24 @@ function getNeigbors(systems, coord){
     return neighbors;
 }
 
+function getNeigborsR2(systems, coord){
+    var neighbors = [];
+    TilePick.NEIGHBORS_RANGE_2.forEach(function(neighbor){
+        var new_coord = {
+            i:coord.i+neighbor.i,
+            j:coord.j+neighbor.j,
+            k:coord.k+neighbor.k
+        }
+        systems.forEach(function(tilePick){
+            if(tilePick.i == new_coord.i &&
+                tilePick.j == new_coord.j &&
+                tilePick.k == new_coord.k)
+                neighbors.push(tilePick);
+        });
+    });
+    return neighbors;
+}
+
 function handleError(res, err) {
     console.log(err);
     return res.status(500).json(err);
@@ -133,4 +152,66 @@ function isHome(coord, nbPlayer){
             if(!result) result = true;
     });
     return result;
+}
+
+function isNearHome(coord, systems, coord_ignor, nbPlayer){
+    var result = false;
+    var neighbors = getNeigbors(systems, coord);
+    neighbors.forEach(function(item){
+        TilePick.PARAMS_NBPLAYER[nbPlayer].homes.forEach(function(home){
+            if(!(home.i == coord_ignor.i && home.j == coord_ignor.j && home.k == coord_ignor.k))
+                if(home.i == item.i && home.j == item.j && home.k == item.k)
+                    if(!result) result = true;
+        });
+    });
+    return result;
+}
+
+function getRessInflu(coord, systems, nbPlayer){
+    var ressource = 0;
+    var influence = 0;
+    var neighbors = getNeigborsR2(systems, coord);
+    var neighborsValid = [];
+    neighbors.forEach(function(item){
+        if(!isNearHome(item, systems, coord, nbPlayer))
+            neighborsValid.push(item);
+    });
+    neighborsValid.forEach(function(item){
+        ressource+=item._tile.ressource;
+        influence+=item._tile.influence;
+    });
+    return {
+        ressource:ressource,
+        influence:influence
+    }
+}
+
+function buildStats(map, nbPlayer){
+    var ri = getRessInflu(map._tiles[0], map._tiles, nbPlayer);
+    var cumul = ri.ressource+ri.influence;
+
+    var stats = {
+        datas:[],
+        maxIndex:0,
+        maxValue:cumul,
+        minIndex:0,
+        minValue:cumul,
+        gap:0
+    }
+
+    for (var i = 0; i < nbPlayer; i++) {
+        ri = getRessInflu(map._tiles[i], map._tiles, nbPlayer);
+        cumul = ri.ressource+ri.influence;
+        if(cumul < stats.minValue){
+            stats.minValue = cumul;
+            stats.minIndex = i;
+        }else if(cumul > stats.maxValue){
+            stats.maxValue = cumul;
+            stats.maxIndex = i;
+        }
+        stats.datas.push(ri);
+    };
+
+    stats.gap = stats.maxValue-stats.minValue;
+    return stats;
 }
