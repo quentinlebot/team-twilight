@@ -4,15 +4,15 @@ var auth = require('./auth/auth.service');
 module.exports = function (app) {
     
     app.use('/', require('./auth'));
-    app.use('/api/users',       require('./api/user'));
-    app.use('/api/tiles',       require('./api/tile'));
-    app.use('/api/players',     require('./api/player'));
-    app.use('/api/races',       require('./api/race'));
-    app.use('/api/map',         require('./api/map'));
-    app.use('/api/tilePick',    require('./api/tilePick'));
-    app.use('/api/season',        require('./api/season'));
-    app.use('/api/game',        require('./api/game'));
-    app.use('/api/gameResult',  require('./api/gameResult'));
+    app.use('/api/users',        require('./api/user'));
+    app.use('/api/tiles',        require('./api/tile'));
+    app.use('/api/players',      require('./api/player'));
+    app.use('/api/races',        require('./api/race'));
+    app.use('/api/maps',         require('./api/map'));
+    app.use('/api/tilePicks',    require('./api/tilePick'));
+    app.use('/api/seasons',      require('./api/season'));
+    app.use('/api/games',        require('./api/game'));
+    app.use('/api/gameResults',  require('./api/gameResult'));
 
     app.get('/map', function (req, res){
     	res.render('map');

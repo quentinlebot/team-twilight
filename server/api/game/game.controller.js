@@ -8,6 +8,15 @@ exports.index = function (req, res) {
     });
 };
 
+exports.getSeason = function (req, res) {
+    Game.find({_season:req.params.id_season})
+        .sort({_id:1})
+        .exec(function (err, games) {
+        if (err) { return handleError(res, err); }
+        return res.status(200).send(games);
+    });
+};
+
 exports.show = function (req, res) {
     Game.findById(req.params.id, function (err, game) {
         if (err) { return handleError(res, err); }

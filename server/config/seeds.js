@@ -674,6 +674,7 @@ Tile.find({}).remove(function () {
             influence: 2,
             techno: ''
     }];
+
     var systems = others;
     var systems = _.concat(systems, emptys);
     var systems = _.concat(systems, anomalys);
@@ -704,23 +705,23 @@ Race.find({}).remove(function () {
     }, {
         _id : 2 ,
         path : 'assets/images/races/logo/TheBaronyOfLetnev.gif',
-        name : 'The Barony of Letnev'
+        name : 'Barony of Letnev'
     }, {
         _id : 3,
         path : 'assets/images/races/logo/TheEmiratesOfHacan.gif',
-        name : 'The Emirates of Hacan'
+        name : 'Emirates of Hacan'
     }, {
         _id : 4,
         path : 'assets/images/races/logo/TheL1z1xMindnet.gif',
-        name : 'The L1Z1X Mindnet'
+        name : 'L1Z1X Mindnet'
     }, {
         _id : 5,
         path : 'assets/images/races/logo/TheMentakCoalition.gif',
-        name : 'The Mentak Coalition'
+        name : 'Mentak Coalition'
     }, {
         _id : 6,
         path : 'assets/images/races/logo/TheNaaluCollective.gif',
-        name : 'The Naalu Collective'
+        name : 'Naalu Collective'
     }, {
         _id : 7,
         path : 'assets/images/races/logo/TheSardakkN\'orr.gif',
@@ -728,35 +729,35 @@ Race.find({}).remove(function () {
     }, {
         _id : 8,
         path : 'assets/images/races/logo/TheUniversitiesOfJol-Nar.gif',
-        name : 'The Universities of Jol-Nar'
+        name : 'Universities of Jol-Nar'
     }, {
         _id : 9,
         path : 'assets/images/races/logo/TheXxchaKingdom.gif',
-        name : 'The Xxcha Kingdom'
+        name : 'Xxcha Kingdom'
     }, {
         _id : 10,
         path : 'assets/images/races/logo/TheYssarilTribes.gif',
-        name : 'The Yssaril Tribes'
+        name : 'Yssaril Tribes'
     }, {
         _id : 11,
         path : 'assets/images/races/logo/TheYinBrotherhood.gif',
-        name : 'The Brotherhood of Yin'
+        name : 'Brotherhood of Yin'
     }, {
         _id : 12,
         path : 'assets/images/races/logo/TheClanOfSaar.gif',
-        name : 'The Clan of Saar'
+        name : 'Clan of Saar'
     }, {
         _id : 13,
         path : 'assets/images/races/logo/TheEmbersOfMuaat.gif',
-        name : 'The Embers of Muaat'
+        name : 'Embers of Muaat'
     }, {
         _id : 14,
         path : 'assets/images/races/logo/TheNekroVirus.gif',
-        name : 'The Nekro Virus'
+        name : 'Nekro Virus'
     }, {
         _id : 15,
         path : 'assets/images/races/logo/TheWinnu.gif',
-        name : 'The Winnu'
+        name : 'Winnu'
     }, {
         _id : 16,
         path : 'assets/images/races/logo/TheGhostsOfCreuss.gif',
@@ -764,9 +765,9 @@ Race.find({}).remove(function () {
     }, {
         _id : 17,
         path : 'assets/images/races/logo/TheArborec.gif',
-        name : 'The Arborec'
+        name : 'Arborec'
     });
-console.log('Création des races');
+    console.log('Création des races');
 });
 
 Player.find({}).remove(function(){
@@ -834,22 +835,22 @@ GameResult.find({}).remove(function(){
         _game:1,
         _player:6,  //Quentin
         _race:14,   //Nekro
-        point:0
+        point:9
     },{
         _game:1,
         _player:3,  //Thomas
         _race:17,   //Arborec
-        point:0
+        point:6
     },{
         _game:1,
         _player:1,  //Fabien
         _race:13,   //Muat
-        point:0
+        point:4
     },{
         _game:1,
         _player:2,  //Tony
         _race:3,   //Haccan
-        point:0
+        point:2
     },{
         _game:1,
         _player:7,  //Georges
@@ -859,7 +860,8 @@ GameResult.find({}).remove(function(){
         _game:2,
         _player:4,  //J-F
         _race:1,   //Sol
-        point:0
+        point:10,
+        bonus:1
     },{
         _game:2,
         _player:3,  //Thomas
@@ -869,47 +871,47 @@ GameResult.find({}).remove(function(){
         _game:2,
         _player:1,  //Fabien
         _race:6,   //Naalu
-        point:0
+        point:7
     },{
         _game:2,
         _player:2,  //Tony
         _race:10,   //Yssaril
-        point:0
+        point:5
     },{
         _game:2,
         _player:7,  //Georges
         _race:3,   //Haccan
-        point:0
+        point:3
     },{
         _game:3,
         _player:2,  //Tony
         _race:1,   //Sol
-        point:0
+        point:11
     },{
         _game:3,
         _player:1,  //Fabien
         _race:5,   //Mentak
-        point:0
+        point:8
     },{
         _game:3,
         _player:3,  //Thomas
         _race:17,   //Arborec
-        point:0
+        point:6
     },{
         _game:3,
         _player:7,  //Georges
         _race:10,   //Yssaril
-        point:0
+        point:4
     },{
         _game:3,
         _player:5,  //Yohan
         _race:3,   //Haccan
-        point:0
+        point:2
     },{
         _game:3,
         _player:6,  //Quentin
         _race:11,   //Yin
-        point:0
+        point:1
     },{
         _game:3,
         _player:4,  //JF
@@ -919,27 +921,28 @@ GameResult.find({}).remove(function(){
         _game:4,
         _player:4,  //JF
         _race:9,   //Xxcha
-        point:0
+        point:10,
+        bonus:1
     },{
         _game:4,
         _player:1,  //Fabien
         _race:15,   //Winuu
-        point:0
+        point:7
     },{
         _game:4,
         _player:2,  //Tony
         _race:14,   //Nekro
-        point:0
+        point:5
     },{
         _game:4,
         _player:3,  //Thomas
         _race:6,   //Naalu
-        point:0
+        point:3
     },{
         _game:4,
         _player:5,  //Yohan
         _race:4,   //L1Z1X
-        point:0
+        point:1
     },{
         _game:4,
         _player:6,  //Quentin
@@ -949,27 +952,28 @@ GameResult.find({}).remove(function(){
         _game:5,
         _player:7,  //George
         _race:8,   //Jol Nar
-        point:0
+        point:10,
+        bonus:2
     },{
         _game:5,
         _player:6,  //Quentin
         _race:3,   //Haccan
-        point:0
+        point:7
     },{
         _game:5,
         _player:3,  //Thomas
         _race:10,   //Yssaril
-        point:0
+        point:5
     },{
         _game:5,
         _player:4,  //JF
         _race:4,   //L1Z1X
-        point:0
+        point:3
     },{
         _game:5,
         _player:2,  //Tony
         _race:17,   //Arborec
-        point:0
+        point:1
     },{
         _game:5,
         _player:8,  //Quentin2voisin

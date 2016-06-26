@@ -5,7 +5,7 @@ var SeasonSchema = new Schema({
     _id:    Number,
     name:   String,
     begin:  Date,
-    end:    Date,
+    end:    Date
 });
 
 module.exports = mongoose.model('Season', SeasonSchema);

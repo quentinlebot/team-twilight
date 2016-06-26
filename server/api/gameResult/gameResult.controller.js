@@ -1,11 +1,33 @@
 var _ =             require('lodash');
 var GameResult =    require('./gameResult.model');
+var Game =          require('../game/game.model');
 
 exports.index = function (req, res) {
     GameResult.find(function (err, gameResults) {
         if (err) { return handleError(res, err); }
         return res.status(200).send(gameResults);
     });
+};
+
+exports.getSeason = function (req, res) {
+    var season_id = req.params.season_id;
+    var games = Game.find({_season:season_id}, function(err, games){
+        const listGamesId = _(games).map(g=>g._id).value();
+        GameResult.where('_game')
+            .in(listGamesId)
+            .exec(function (err, gameResults) {
+            if (err) { return handleError(res, err); }
+            return res.status(200).send(gameResults);
+        });
+    });
+};
+
+exports.getGame = function (req, res) {
+    GameResult.find({_game:req.params.game_id})
+        .exec(function (err, gameResults) {
+        if (err) { return handleError(res, err); }
+        return res.status(200).send(gameResults);
+    });  
 };
 
 exports.show = function (req, res) {

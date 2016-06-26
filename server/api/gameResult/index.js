@@ -1,12 +1,18 @@
 var express =       require('express');
 var controller =    require('./gameResult.controller');
+var auth =          require('../../auth/auth.service');
+
 var router =        express.Router();
 
 router.get('/',         controller.index);
 router.get('/:id',      controller.show);
-router.post('/',        controller.create);
-//router.put('/:id',      controller.update);
-//router.patch('/:id',    controller.active);
-router.delete('/:id',   controller.destroy);
+router.get('/season/:season_id',      
+                        controller.getSeason);
+router.get('/game/:game_id',      
+                        controller.getGame);
+router.post('/',        auth.isAuthenticated, controller.create);
+//router.put('/:id',      auth.isAuthenticated, controller.update);
+//router.patch('/:id',    auth.isAuthenticated, controller.active);
+router.delete('/:id',   auth.isAuthenticated, controller.destroy);
 
 module.exports = router;

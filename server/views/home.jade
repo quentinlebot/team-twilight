@@ -3,20 +3,32 @@
         div.container
             include ./navbar.jade
             h1 Scores Saison 1
-            table.table.table-striped
-                thead
-                    tr
-                        th Rang
-                        th Nom
-                        th Points
-                        th Détails
-                        th Nombre de parties
-                tbody
-                    tr
-                    each data in datas
-                        tr
-                            td #{data.rang}
-                            td #{data.name}
-                            td #{data.score}
-                            td #{data.detail}
-                            td #{data.nb_game}
+        div.container-fluid
+            div.row#results
+
+script.
+
+    function getScores(){
+        $.get('/api/games/season/' + 1, function (games) {
+            games.forEach(function(game){
+
+                $('#results').append('<div class="col-sm-2"><h2>Partie '+game._id+'</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th>Race</th><th>Points</th><th></th><th>Total</th></tr></thead><tbody id="game'+game._id+'"></tbody></table></div>');
+
+                $.get('/api/gameResults/game/' + game._id, function (gameResults) {
+                     gameResults.forEach(function(gameResult){
+                        $.get('/api/players/' + gameResult._player, function (player) {
+                            $.get('/api/races/' + gameResult._race, function (race) {
+                                $('#game'+game._id).append("<tr><td>"+player.name+"</td><td>"+race.name+"</td><td>"+gameResult.point+"</td><td>("+gameResult.bonus+")</td><td><strong>"+(gameResult.point+gameResult.bonus)+"</strong></td></tr>");
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    function sortByPoints(a, b){
+        return (a.point+a.bonus) - (b.point+b.bonus);
+    }
+
+    getScores();

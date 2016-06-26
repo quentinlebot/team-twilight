@@ -63,18 +63,17 @@ script.
 
         var TILE_SIZE = SVG_SIZE / (((range*2)-1)*Math.sqrt(3)*1.05);
 
-        $.get('/api/map/new/' + nbplayer, function (res) {
-            draw_tile(res.map.stats, res.map._tiles, TILE_SIZE, svgContainer);
-            draw_stats(res.map.stats);
-            window.zoomTiger = svgPanZoom('#svg_map', {
-                zoomEnabled: true,
-                controlIconsEnabled: true,
-                fit: true,
-                center: true,
-                panEnabled: true
-            }); 
-        });
-        
+        $.get('/api/maps/new/' + nbplayer
+            , function (res) {
+                draw_tile(range, res.map._tiles, TILE_SIZE, svgContainer);
+                window.zoomTiger = svgPanZoom('#svg_map', {
+                    zoomEnabled: true,
+                    controlIconsEnabled: true,
+                    fit: true,
+                    center: true,
+                    panEnabled: true
+                }); 
+            });
     }
 
     function reset_map () {
