@@ -65,7 +65,7 @@ script.
 
         $.get('/api/maps/new/' + nbplayer
             , function (res) {
-                draw_tile(range, res.map._tiles, TILE_SIZE, svgContainer);
+                draw_tile(res.map.stats, res.map._tiles, TILE_SIZE, svgContainer);
                 window.zoomTiger = svgPanZoom('#svg_map', {
                     zoomEnabled: true,
                     controlIconsEnabled: true,
@@ -165,5 +165,7 @@ script.
                         .text(stats.datas[i].ressource);
                 }
             }
+
         };
+        draw_stats(stats);
     }
