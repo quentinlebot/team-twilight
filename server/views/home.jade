@@ -4,31 +4,81 @@
             include ./navbar.jade
             h1 Scores Saison 1
         div.container-fluid
-            div.row#results
+            div.row#classement
+            div.row#gameResults
 
 script.
 
-    function getScores(){
+    function getGlobalDatas(cb){
         $.get('/api/games/season/' + 1, function (games) {
-            games.forEach(function(game){
-
-                $('#results').append('<div class="col-sm-2"><h2>Partie '+game._id+'</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th>Race</th><th>Points</th><th></th><th>Total</th></tr></thead><tbody id="game'+game._id+'"></tbody></table></div>');
-
-                $.get('/api/gameResults/game/' + game._id, function (gameResults) {
-                     gameResults.forEach(function(gameResult){
-                        $.get('/api/players/' + gameResult._player, function (player) {
-                            $.get('/api/races/' + gameResult._race, function (race) {
-                                $('#game'+game._id).append("<tr><td>"+player.name+"</td><td>"+race.name+"</td><td>"+gameResult.point+"</td><td>("+gameResult.bonus+")</td><td><strong>"+(gameResult.point+gameResult.bonus)+"</strong></td></tr>");
-                            });
-                        });
-                    });
+            $.get('/api/players', function (players) {
+                $.get('/api/races', function (races) {
+                    var datas = {
+                        games:games,
+                        races:races,
+                        players:players
+                    };
+                    return cb(datas);
                 });
             });
         });
     }
 
     function sortByPoints(a, b){
-        return (a.point+a.bonus) - (b.point+b.bonus);
+        return b.point-a.point;
     }
 
-    getScores();
+    getGlobalDatas(function(datas){
+        showGamesScores(datas);
+    });
+
+    function showGamesScores(datas){
+        var promises = [];
+        datas.results = [];
+        datas.games.forEach(function(game){
+            $('#gameResults').append('<div class="col-sm-2"><h2>Partie '+game._id+'</h2><table class="table table-striped" id="game"><thead><tr><th>Joueur</th><th>Race</th><th>Points</th><th></th><th>Total</th></tr></thead><tbody id="game'+game._id+'"></tbody></table></div>');
+
+            var request = $.get('/api/gameResults/game/' + game._id, function (gameResults) {
+                datas.results[game._id] = gameResults.sort(sortByPoints);
+                datas.results[game._id].forEach(function(res){
+                    var player = datas.players[res._player-1].name;
+                    var race = datas.races[res._race-1].name;
+                    $('#game'+game._id).append("<tr><td>"+player+"</td><td>"+race+"</td><td>"+res.point+"</td><td>("+res.bonus+")</td><td><strong>"+(res.point+res.bonus)+"</strong></td></tr>");
+                });
+            });
+            promises.push(request);
+        });
+        $.when.apply(null, promises).done(function(){
+            showClassement(datas);
+        });
+    };
+
+    function showClassement(scores){
+        var playerScores = [];
+        $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="classRow"></tbody></table></div>');
+        for(var j = 1; j < scores.results.length; j++){
+            var game = scores.results[j];
+            for(var i = 0; i < game.length; i++){
+                if(isNaN(playerScores[game[i]._player])){
+                    playerScores[game[i]._player] = game[i].point+game[i].bonus;
+                }
+                else{
+                    playerScores[game[i]._player] += game[i].point+game[i].bonus;
+                }
+            };
+        };
+        var scoresFinal = [];
+        for(var i in playerScores){
+            if(scores.players[i-1] != undefined){
+                var data = {
+                    player:scores.players[i-1].name,
+                    point:playerScores[i]
+                }
+                scoresFinal.push(data);
+            }
+        }
+        scoresFinal.sort(sortByPoints);
+        for(var i in scoresFinal){
+            $('#classRow').append("<tr class='success'><td>"+scoresFinal[i].player+"</td><td><strong>"+scoresFinal[i].point+"</strong></td></tr>");
+        }
+    }

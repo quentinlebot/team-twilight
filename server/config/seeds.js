@@ -860,28 +860,28 @@ GameResult.find({}).remove(function(){
         _game:2,
         _player:4,  //J-F
         _race:1,   //Sol
-        point:10,
+        point:9,
         bonus:1
+    },{
+        _game:2,
+        _player:1,  //Fabien
+        _race:6,   //Naalu
+        point:6
+    },{
+        _game:2,
+        _player:2,  //Tony
+        _race:10,   //Yssaril
+        point:4
+    },{
+        _game:2,
+        _player:7,  //Georges
+        _race:3,   //Haccan
+        point:2
     },{
         _game:2,
         _player:3,  //Thomas
         _race:5,   //Mentak
         point:0
-    },{
-        _game:2,
-        _player:1,  //Fabien
-        _race:6,   //Naalu
-        point:7
-    },{
-        _game:2,
-        _player:2,  //Tony
-        _race:10,   //Yssaril
-        point:5
-    },{
-        _game:2,
-        _player:7,  //Georges
-        _race:3,   //Haccan
-        point:3
     },{
         _game:3,
         _player:2,  //Tony
