@@ -10,7 +10,7 @@ include ./header.jade
                     h2 Paramètres
                     p Ecart max sur la somme ressources et influence
                     p
-                        input#ecart(type="text" value="10")
+                        input#ecart(type="text")
                     h2 Nombre de joueurs
                     p.btn-group
                         button.btn.btn-success.btn-raised#player(value="5") 5
@@ -45,6 +45,7 @@ script.
 
     var nbplayer = 5;
     var ecart = 8;
+    $('#ecart').attr('value', ecart);
     var SVG_SIZE = $(window).height();
     create_map();
 
