@@ -1,5 +1,6 @@
 var _ =                 require('lodash');
 var GameMap =           require('./map.model');
+var Map =      require('./map.controller');
 var TilePickCtrl =      require('../tilePick/tilePick.controller');
 var TilePick =          require('../tilePick/tilePick.model');
 var Tile =              require('../tile/tile.model');
@@ -7,6 +8,7 @@ var Tile =              require('../tile/tile.model');
 exports.new = function(req, res) {
     var nbPlayer = req.params.nbPlayer;
     var new_map = {};
+    var gap = req.params.gap;
     TilePickCtrl.getBaseTiles(nbPlayer, function(stdTiles){
         new_map._tiles = stdTiles;
         TilePickCtrl.getGameTiles(nbPlayer, function(gameTiles){
@@ -14,13 +16,16 @@ exports.new = function(req, res) {
             var listErrors = [];
             resolve(nbPlayer, new_map._tiles, function(systems_ok){
                 new_map._tiles = systems_ok;
-                TilePickCtrl.save(new_map._tiles, function(){
-                    GameMap.create(new_map, function(err, map) {
-                        if(err) { return handleError(res, err); }
-                        map.stats = buildStats(map, nbPlayer);
-                        return res.status(201).json({map:map});
-                    });
-                });
+                //TilePickCtrl.save(new_map._tiles, function(){
+                    //GameMap.create(new_map, function(err, map) {
+                        //if(err) { return handleError(res, err); }
+                        new_map.stats = buildStats(new_map, nbPlayer);
+                        if(new_map.stats.gap > gap)
+                            return Map.new(req, res);
+                        else
+                            return res.status(201).json({map:new_map});
+                    //});
+                //});
             });
         });
     });

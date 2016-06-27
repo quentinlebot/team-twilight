@@ -64,7 +64,7 @@ script.
 
         var TILE_SIZE = SVG_SIZE / (((range*2)-1)*Math.sqrt(3)*1.05);
 
-        $.get('/api/maps/new/' + nbplayer
+        $.get('/api/maps/new/' + nbplayer+'/'+ecart
             , function (res) {
                 draw_tile(res.map.stats, res.map._tiles, TILE_SIZE, svgContainer);
                 window.zoomTiger = svgPanZoom('#svg_map', {

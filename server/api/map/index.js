@@ -4,7 +4,7 @@ var auth =          require('../../auth/auth.service');
 
 var router =        express.Router();
 
-router.get('/new/:nbPlayer',    controller.new);
+router.get('/new/:nbPlayer/:gap',    controller.new);
 router.get('/:id',              controller.show);
 
 module.exports = router;
