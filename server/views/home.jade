@@ -2,7 +2,8 @@
     block content
         div.container
             include ./navbar.jade
-            h1 Scores Saison 1
+            div.page-header
+                h1 Saison 1
         div.container-fluid
             div.row#classement
             div.row#gameResults
@@ -55,30 +56,43 @@ script.
 
     function showClassement(scores){
         var playerScores = [];
-        $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="classRow"></tbody></table></div>');
+        var raceStats = [];
+        $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="scoresRow"></tbody></table></div>');
+        $('#classement').append('<div class="col-sm-3 col-sm-offset-6"><h2>Statistiques races</h2><table class="table table-striped"><thead><tr><th>Race</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="racesRow"></tbody></table></div>');
         for(var j = 1; j < scores.results.length; j++){
             var game = scores.results[j];
             for(var i = 0; i < game.length; i++){
-                if(isNaN(playerScores[game[i]._player])){
-                    playerScores[game[i]._player] = game[i].point+game[i].bonus;
+                if(playerScores[game[i]._player] == undefined){
+                    var data = {
+                        name:scores.players[game[i]._player-1].name,
+                        point:0,
+                        nbGame:0,
+                        path:scores.players[game[i]._player-1].path
+                    }
+                    playerScores[game[i]._player] = data;
                 }
-                else{
-                    playerScores[game[i]._player] += game[i].point+game[i].bonus;
+                playerScores[game[i]._player].point += game[i].point+game[i].bonus;
+                playerScores[game[i]._player].nbGame++;
+
+                if(raceStats[game[i]._race] == undefined){
+                    var data = {
+                        name:scores.races[game[i]._race-1].name,
+                        nbGame:0,
+                        point:0,
+                        path:scores.races[game[i]._race-1].path
+                    }
+                    raceStats[game[i]._race] = data;
                 }
-            };
+                raceStats[game[i]._race].nbGame++;
+                raceStats[game[i]._race].point += game[i].point+game[i].bonus;
+             };
         };
-        var scoresFinal = [];
+        playerScores.sort(sortByPoints);
+        raceStats.sort(sortByPoints);
         for(var i in playerScores){
-            if(scores.players[i-1] != undefined){
-                var data = {
-                    player:scores.players[i-1].name,
-                    point:playerScores[i]
-                }
-                scoresFinal.push(data);
-            }
+            $('#scoresRow').append("<tr class='success'><td class='row-picture'><img style='width:50px;' class='circle' src='"+playerScores[i].path+"' alt=''></td><td>"+playerScores[i].name+"</td><td><strong>"+playerScores[i].point+"</strong></td><td>"+playerScores[i].nbGame+"</td><td>"+(playerScores[i].point/playerScores[i].nbGame)+"</td><</tr>");
         }
-        scoresFinal.sort(sortByPoints);
-        for(var i in scoresFinal){
-            $('#classRow').append("<tr class='success'><td>"+scoresFinal[i].player+"</td><td><strong>"+scoresFinal[i].point+"</strong></td></tr>");
+        for(var race in raceStats){
+            $('#racesRow').append("<tr class='warning'><td><img style='width:30px;' src=\""+raceStats[race].path+"\" alt=''/></td><td>"+raceStats[race].name+"</td><td><strong>"+raceStats[race].point+"</strong></td><td>"+raceStats[race].nbGame+"</td><td>"+(raceStats[race].point/raceStats[race].nbGame).toFixed(2)+"</td><</tr>");
         }
     }

@@ -700,15 +700,15 @@ Tile.find({}).remove(function () {
 Race.find({}).remove(function () {
     Race.create({
         _id : 1,
-        path : 'assets/images/races/logo/FederationOfSol_V2.gif',
+        path : 'assets/images/races/icon-sol.png',
         name : 'Federation of Sol'
     }, {
         _id : 2 ,
-        path : 'assets/images/races/logo/TheBaronyOfLetnev.gif',
+        path : 'assets/images/races/icon-letnev.png',
         name : 'Barony of Letnev'
     }, {
         _id : 3,
-        path : 'assets/images/races/logo/TheEmiratesOfHacan.gif',
+        path : 'assets/images/races/icon-hacan.png',
         name : 'Emirates of Hacan'
     }, {
         _id : 4,
@@ -728,11 +728,11 @@ Race.find({}).remove(function () {
         name : 'Sardakk N’orr'
     }, {
         _id : 8,
-        path : 'assets/images/races/logo/TheUniversitiesOfJol-Nar.gif',
+        path : 'assets/images/races/icon-jol-nar.png',
         name : 'Universities of Jol-Nar'
     }, {
         _id : 9,
-        path : 'assets/images/races/logo/TheXxchaKingdom.gif',
+        path : 'assets/images/races/icon-xxcha.png',
         name : 'Xxcha Kingdom'
     }, {
         _id : 10,
@@ -774,10 +774,10 @@ Player.find({}).remove(function(){
     console.log('Création des joueurs');
     Player.create({
         _id : 1,
-        name : 'Cerise'
+        name : 'Fabien'
     }, {
         _id : 2 ,
-        name : 'Tony'
+        name : 'Anthony'
     }, {
         _id : 3 ,
         name : 'Thomas'
@@ -795,7 +795,7 @@ Player.find({}).remove(function(){
         name : 'Georges'
     }, {
         _id : 8 ,
-        name : 'Quentin 2 (voisin)'
+        name : 'Quentin 2'
     });
 });
 

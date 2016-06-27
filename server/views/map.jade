@@ -2,7 +2,8 @@ include ./header.jade
     block content
         div.container
             include ./navbar.jade
-            h1 Générateur de carte
+            div.page-header
+                h1 Générateur de carte
         div.container-fluid
             div.col-sm-3
                 div.row
@@ -55,7 +56,7 @@ script.
             .append("svg")
             .attr("id", "svg_map")
             .attr("width", "100%")
-            .attr("height", SVG_SIZE*0.85);
+            .attr("height", SVG_SIZE*0.80);
 
         var range = 4;
         if(nbplayer === undefined) nbplayer = 5;
