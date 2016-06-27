@@ -19,6 +19,7 @@
     "bootstrap": "^3.3.6",
     "svg-pan-zoom": "^3.2.8",
     "jquery": "^2.2.4",
-    "bootstrap-material-design": "^0.5.10"
+    "bootstrap-material-design": "^0.5.10",
+    "components-font-awesome": "^4.6.3"
   }
 }
