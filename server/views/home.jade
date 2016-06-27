@@ -29,6 +29,10 @@ script.
         return b.point-a.point;
     }
 
+    function sortByPlayer(a, b){
+        return a._player-b._player;
+    }
+
     getGlobalDatas(function(datas){
         showGamesScores(datas);
     });
@@ -51,6 +55,7 @@ script.
         });
         $.when.apply(null, promises).done(function(){
             showRanking(datas);
+            chart(datas);
         });
     };
 
@@ -58,7 +63,8 @@ script.
         var playerScores = [];
         var raceStats = [];
         $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="scoresRow"></tbody></table></div>');
-        $('#classement').append('<div class="col-sm-3 col-sm-offset-6"><h2>Statistiques races</h2><table class="table table-striped"><thead><tr><th>Race</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="racesRow"></tbody></table></div>');
+        $('#classement').append('<div class="col-sm-6"><h2>Progression</h2><div id="chart_div" style="height: 600px"></div></div>');
+        $('#classement').append('<div class="col-sm-3"><h2>Statistiques races</h2><table class="table table-striped"><thead><tr><th>Race</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="racesRow"></tbody></table></div>');
         for(var j = 1; j < scores.results.length; j++){
             var game = scores.results[j];
             for(var i = 0; i < game.length; i++){
@@ -98,4 +104,66 @@ script.
         for(var race in raceStats){
             $('#racesRow').append("<tr class='warning'><td><img style='width:30px;' src=\""+raceStats[race].path+"\" alt=''/></td><td>"+raceStats[race].name+"</td><td><strong>"+raceStats[race].point+"</strong></td><td>"+raceStats[race].nbGame+"</td><td>"+(raceStats[race].point/raceStats[race].nbGame).toFixed(2)+"</td><</tr>");
         }
+    }
+
+
+
+    function chart(scores){
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawCrosshairs);
+
+    function drawCrosshairs() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'X');
+        scores.players.forEach(function(player){
+            data.addColumn('number', player.name);
+        });
+        var allRows = [];
+        var cumul = [];
+        for(var i = 0; i < scores.players.length+1; i++){
+            cumul.push(0); 
+        }
+        allRows.push(cumul);
+        for(var j = 1; j < scores.results.length; j++){
+            var game = scores.results[j].sort(sortByPlayer);
+            var row = [];
+            row.push(j);
+            for(var i = 0; i < scores.players.length; i++){
+                row.push(0);
+            }
+            for(var i = 0; i < game.length; i++){
+                row[game[i]._player] = game[i].point+game[i].bonus; 
+            }
+            allRows.push(row);
+        }
+        for(var i = 0; i < allRows.length; i++){
+            for(var j = 0; j < allRows[i].length; j++){
+                if(i != 0)
+                    allRows[i][j] += allRows[i-1][j];
+            }
+        }
+        data.addRows(allRows);
+
+        var options = {
+            hAxis: {
+              title: 'Games'
+            },
+            vAxis: {
+              title: 'Points'
+            },
+            colors: ['#FF5252', '#CDDC39', '#7B1FA2', '#009688', '#5D4037', '#727272', '#03A9F4', '#FF4081', '#212121'],
+            crosshair: {
+              color: '#EEEEEE',
+              trigger: 'selection'
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+        chart.setSelection([{row: 38, column: 1}]);
+        $('rect').attr('fill', '#EEEEEE');
+
+        }
+
     }
