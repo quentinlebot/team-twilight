@@ -41,7 +41,7 @@ script.
         var promises = [];
         datas.results = [];
         datas.games.forEach(function(game){
-            $('#gameResults').append('<div class="col-sm-2"><h2>Partie '+game._id+'</h2><table class="table table-striped" id="game"><thead><tr><th>Joueur</th><th>Race</th><th>Points</th><th></th><th>Total</th></tr></thead><tbody id="game'+game._id+'"></tbody></table></div>');
+            $('#gameResults').append('<div class="col-md-offset-1 col-sm-3"><h2>Partie '+game._id+'</h2><table class="table table-striped" id="game"><thead><tr><th>Joueur</th><th>Race</th><th>Points</th><th></th><th>Total</th></tr></thead><tbody id="game'+game._id+'"></tbody></table></div>');
 
             var request = $.get('/api/gameResults/game/' + game._id, function (gameResults) {
                 datas.results[game._id] = gameResults.sort(sortByPoints);
