@@ -1,12 +1,12 @@
 ﻿module.exports = {
     
-    ip: '127.0.0.1',
+    ip: 'localhost',
     port: process.env.PORT || 3000,
     
     seedDB:true,
     
     mongo: {
-        uri: 'mongodb://127.0.0.1/ti_db',
+        uri: 'mongodb://localhost/ti_db',
         port: 27017,
         options: {
             db: {
