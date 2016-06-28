@@ -9,6 +9,10 @@ exports.new = function(req, res) {
     var nbPlayer = req.params.nbPlayer;
     var new_map = {};
     var gap = req.params.gap;
+    if(gap == undefined || gap < 5)
+        gap = 8;
+    if(nbPlayer == undefined || nbPlayer > 8 || nbPlayer < 5)
+        nbPlayer = 5;
     TilePickCtrl.getBaseTiles(nbPlayer, function(stdTiles){
         new_map._tiles = stdTiles;
         TilePickCtrl.getGameTiles(nbPlayer, function(gameTiles){
