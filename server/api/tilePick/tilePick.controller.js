@@ -1,7 +1,7 @@
 var _ =             require('lodash');
 var TilePick =      require('./tilePick.model');
-var TileCtrl =      require('../Tile/tile.controller');
-var Tile =          require('../Tile/tile.model');
+var TileCtrl =      require('../tile/tile.controller');
+var Tile =          require('../tile/tile.model');
 
 
 exports.save = function(lst, cb){
