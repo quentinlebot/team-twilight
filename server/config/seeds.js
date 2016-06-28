@@ -19,8 +19,7 @@ User.find({}).remove(function () {
         password: 'password'
     }, function () {
         console.log('Création des utilisateurs');
-    }
-    );
+    });
 });
 
 TilePick.find({}).remove(function(){

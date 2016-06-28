@@ -15,19 +15,27 @@ module.exports = function (app) {
     app.use('/api/gameResults',  require('./api/gameResult'));
 
     app.get('/map', function (req, res){
-    	res.render('map');
+    	res.render('map', { user: req.user});
     });
 
-    app.get('/entity', function (req, res){
-        res.render('entity');
+    app.get('/counter', function (req, res){
+        res.render('counter', {user:req.user});
     });
 
-    app.get('/player', function (req, res){
-        res.render('player');
+    app.get('/playerboard', function (req, res){
+        res.render('playerboard', {user:req.user});
     });
-    
+
+    app.get('/player', auth.hasRole('Administrateur'), function (req, res){
+        res.render('player', {user:req.user});
+    });
+
+    app.get('/gameresult', auth.hasRole('Administrateur'), function (req, res){
+        res.render('gameresult', {user:req.user});
+    });
+    /*
     app.get('/users', auth.hasRole('Administrateur'), function (req, res) {
         User.view(req, res);
     });
-
+    */
 }
