@@ -9,7 +9,6 @@
             div.row#gameResults
 
 script.
-
     function getGlobalDatas(cb){
         $.get('/api/games/season/' + 1, function (games) {
             $.get('/api/players', function (players) {
@@ -62,9 +61,9 @@ script.
     function showRanking(scores){
         var playerScores = [];
         var raceStats = [];
-        $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table class="table table-striped"><thead><tr><th>Joueur</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="scoresRow"></tbody></table></div>');
+        $('#classement').append('<div class="col-sm-3"><h2>Classement général</h2><table id="table_player" class="table table-striped"><thead><tr><th>Joueur</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="scoresRow"></tbody></table></div>');
         $('#classement').append('<div class="col-sm-6"><h2>Progression</h2><div id="chart_div" style="height: 600px"></div></div>');
-        $('#classement').append('<div class="col-sm-3"><h2>Statistiques races</h2><table class="table table-striped"><thead><tr><th>Race</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="racesRow"></tbody></table></div>');
+        $('#classement').append('<div class="col-sm-3"><h2>Statistiques races</h2><table id="table_race" class="table table-striped"><thead><tr><th>Race</th><th></th><th>Points</th><th>Nb game</th><th>Ratio</th></tr></thead><tbody id="racesRow"></tbody></table></div>');
         for(var j = 1; j < scores.results.length; j++){
             var game = scores.results[j];
             for(var i = 0; i < game.length; i++){
@@ -104,6 +103,17 @@ script.
         for(var race in raceStats){
             $('#racesRow').append("<tr class='warning'><td><img style='width:30px;' src=\""+raceStats[race].path+"\" alt=''/></td><td>"+raceStats[race].name+"</td><td><strong>"+raceStats[race].point+"</strong></td><td>"+raceStats[race].nbGame+"</td><td>"+(raceStats[race].point/raceStats[race].nbGame).toFixed(2)+"</td><</tr>");
         }
+
+        $('#table_player').DataTable({
+            "searching": false,
+            "paging":   false,
+            "info":     false
+        });
+        $('#table_race').DataTable({
+            "searching": false,
+            "paging":   false,
+            "info":     false
+        });
     }
 
 
