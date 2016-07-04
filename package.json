@@ -4,14 +4,16 @@
   "description": "team-twilight",
   "main": "server/app.js",
   "scripts": {
-    "start": "node-debug ./server/app.js"
+    "start": "node ./server/app.js",
+    "postinstall": "bower install"
   },
   "author": {
     "name": "Quentin",
-    "email": ""
+    "email": "quentinlebot@gmail.com"
   },
   "dependencies": {
     "body-parser": "^1.13.2",
+    "bower": "^1.7.9",
     "composable-middleware": "^0.3.0",
     "compression": "^1.5.1",
     "connect-flash": "^0.1.1",
