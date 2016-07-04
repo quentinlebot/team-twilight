@@ -119,61 +119,60 @@ script.
 
 
     function chart(scores){
-    google.charts.load('current', {packages: ['corechart', 'line']});
-    google.charts.setOnLoadCallback(drawCrosshairs);
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        google.charts.setOnLoadCallback(drawCrosshairs);
 
-    function drawCrosshairs() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'X');
-        scores.players.forEach(function(player){
-            data.addColumn('number', player.name);
-        });
-        var allRows = [];
-        var cumul = [];
-        for(var i = 0; i < scores.players.length+1; i++){
-            cumul.push(0); 
-        }
-        allRows.push(cumul);
-        for(var j = 1; j < scores.results.length; j++){
-            var game = scores.results[j].sort(sortByPlayer);
-            var row = [];
-            row.push(j);
-            for(var i = 0; i < scores.players.length; i++){
-                row.push(0);
+        function drawCrosshairs() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'X');
+            scores.players.forEach(function(player){
+                data.addColumn('number', player.name);
+            });
+            var allRows = [];
+            var cumul = [];
+            for(var i = 0; i < scores.players.length+1; i++){
+                cumul.push(0);
             }
-            for(var i = 0; i < game.length; i++){
-                row[game[i]._player] = game[i].point+game[i].bonus; 
+            allRows.push(cumul);
+            for(var j = 1; j < scores.results.length; j++){
+                var game = scores.results[j].sort(sortByPlayer);
+                var row = [];
+                row.push(j);
+                for(var i = 0; i < scores.players.length; i++){
+                    row.push(0);
+                }
+                for(var i = 0; i < game.length; i++){
+                    row[game[i]._player] = game[i].point+game[i].bonus;
+                }
+                allRows.push(row);
             }
-            allRows.push(row);
-        }
-        for(var i = 0; i < allRows.length; i++){
-            for(var j = 0; j < allRows[i].length; j++){
-                if(i != 0 & j != 0)
-                    allRows[i][j] += allRows[i-1][j];
+            for(var i = 0; i < allRows.length; i++){
+                for(var j = 0; j < allRows[i].length; j++){
+                    if(i != 0 & j != 0)
+                        allRows[i][j] += allRows[i-1][j];
+                }
             }
-        }
-        data.addRows(allRows);
+            data.addRows(allRows);
 
-        var options = {
-            hAxis: {
-              title: 'Games'
-            },
-            vAxis: {
-              title: 'Points'
-            },
-            colors: ['#FF5252', '#CDDC39', '#7B1FA2', '#009688', '#5D4037', '#727272', '#03A9F4', '#FF4081', '#212121'],
-            crosshair: {
-              color: '#EEEEEE',
-              trigger: 'selection'
-            }
-        };
+            var options = {
+                hAxis: {
+                  title: 'Games'
+                },
+                vAxis: {
+                  title: 'Points'
+                },
+                colors: ['#FF5252', '#CDDC39', '#7B1FA2', '#009688', '#5D4037', '#727272', '#03A9F4', '#FF4081', '#212121'],
+                crosshair: {
+                  color: '#EEEEEE',
+                  trigger: 'selection'
+                }
+            };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-        chart.draw(data, options);
-        chart.setSelection([{row: 38, column: 1}]);
-        $('rect').attr('fill', '#EEEEEE');
-
+            chart.draw(data, options);
+            chart.setSelection([{row: 38, column: 1}]);
+            $('rect').attr('fill', '#EEEEEE');
         }
 
     }
