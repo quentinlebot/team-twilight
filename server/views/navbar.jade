@@ -30,11 +30,9 @@
                         a(href='/signout') Deconnexion
             else
                 form.navbar-form.navbar-right(id='submit' method='POST', action='/signin')
-                    div#login.form-group
-                        input.form-control(type="text" name='login' placeholder='login')
-                    div#password.form-group
-                        input.form-control(type="password" name='password' placeholder='password')
-                    input.btn.btn-success(type='submit' value='Connexion')
+                    input#login.form-group.form-control(type="text" name='login' placeholder='login')
+                    input#password.form-group.form-control(type="password" name='password' placeholder='password')
+                    input.form-group.btn.btn-success(type='submit' value='Connexion')
 script.
     $("#submit").submit(function( event ) {
         if(!login()) event.preventDefault();
