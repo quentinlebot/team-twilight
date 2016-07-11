@@ -61,6 +61,10 @@ script.
         }
     }
 
+    function sortById(a, b){
+        return a._id-b._id;
+    }
+
     function sortByPlayer(a, b){
         return a._player-b._player;
     }
@@ -68,6 +72,13 @@ script.
     getGlobalDatas(function(datas){
         showGamesScores(datas);
     });
+
+    function getDatasById(datas, id){
+        for(var i = 0; i < datas.length; i++){
+            if(datas[i]._id == id)
+                return datas[i];
+        }
+    }
 
     function showGamesScores(datas){
         var promises = [];
@@ -80,8 +91,8 @@ script.
             var request = $.get('/api/gameResults/game/' + game._id, function (gameResults) {
                 datas.results[game._id] = gameResults.sort(sortByPoints);
                 datas.results[game._id].forEach(function(res){
-                    var player = datas.players[res._player-1].name;
-                    var race = datas.races[res._race-1].name;
+                    var player = getDatasById(datas.players, res._player).name;
+                    var race = getDatasById(datas.races, res._race).name;
                     $('#game'+game._id).append("<tr><td>"+player+"</td><td>"+race+"</td><td>"+res.point+"</td><td>("+res.bonus+")</td><td><strong>"+(res.point+res.bonus)+"</strong></td></tr>");
                 });
             });
@@ -106,10 +117,10 @@ script.
             for(var i = 0; i < game.length; i++){
                 if(playerScores[game[i]._player] == undefined){
                     var data = {
-                        name:scores.players[game[i]._player-1].name,
+                        name:getDatasById(scores.players, game[i]._player).name,
                         point:0,
                         nbGame:0,
-                        path:scores.players[game[i]._player-1].path,
+                        path:getDatasById(scores.players, game[i]._player).path,
                         rank:[]
                     }
                     playerScores[game[i]._player] = data;
@@ -124,9 +135,10 @@ script.
                 if(raceStats[game[i]._race] == undefined){
                     var data = {
                         name:scores.races[game[i]._race-1].name,
+                        name:getDatasById(scores.races, game[i]._race).name,
                         nbGame:0,
                         point:0,
-                        path:scores.races[game[i]._race-1].path
+                        path:getDatasById(scores.races, game[i]._race).path
                     }
                     raceStats[game[i]._race] = data;
                 }
@@ -167,7 +179,7 @@ script.
         function drawCrosshairs() {
             var data = new google.visualization.DataTable();
             data.addColumn('number', 'X');
-            scores.players.forEach(function(player){
+            scores.players.sort(sortById).forEach(function(player){
                 data.addColumn('number', player.name);
             });
             var allRows = [];
