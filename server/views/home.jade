@@ -5,7 +5,7 @@
             div.jumbotron
                 h1 Saison 1
                 p Retrouvez tous les scores de la saison 1 sur cette page, la saison se termine à la fin de la sixième partie...
-        div.container-fluid
+        div.container-fluid#season
             div.row#classement
                 h2
                     i.material-icons timeline
@@ -66,7 +66,7 @@ script.
             });
             promises.push(request);
             if(counter == 3)
-                $('#gameResults').append("<div class='row'/>");
+                $('#season').append("<div class='row'/>");
         });
         $.when.apply(null, promises).done(function(){
             showRanking(datas);
