@@ -921,7 +921,7 @@ GameResult.find({}).remove(function(){
         _player:4,  //JF
         _race:9,   //Xxcha
         point:10,
-        bonus:1
+        bonus:2
     },{
         _game:4,
         _player:1,  //Fabien
