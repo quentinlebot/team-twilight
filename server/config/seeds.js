@@ -834,149 +834,178 @@ GameResult.find({}).remove(function(){
         _game:1,
         _player:6,  //Quentin
         _race:14,   //Nekro
-        point:9
+        point:9,
+        rank:1
     },{
         _game:1,
         _player:3,  //Thomas
         _race:17,   //Arborec
-        point:6
+        point:6,
+        rank:2
     },{
         _game:1,
         _player:1,  //Fabien
         _race:13,   //Muat
-        point:4
+        point:4,
+        rank:3
     },{
         _game:1,
         _player:2,  //Tony
         _race:3,   //Haccan
-        point:2
+        point:2,
+        rank:4
     },{
         _game:1,
         _player:7,  //Georges
         _race:9,   //Xxcha
-        point:0
+        point:0,
+        rank:5
     },{
         _game:2,
         _player:4,  //J-F
         _race:1,   //Sol
         point:9,
-        bonus:1
+        bonus:1,
+        rank:1
     },{
         _game:2,
         _player:1,  //Fabien
         _race:6,   //Naalu
-        point:6
+        point:6,
+        rank:2
     },{
         _game:2,
         _player:2,  //Tony
         _race:10,   //Yssaril
-        point:4
+        point:4,
+        rank:3
     },{
         _game:2,
         _player:7,  //Georges
         _race:3,   //Haccan
-        point:2
+        point:2,
+        rank:4
     },{
         _game:2,
         _player:3,  //Thomas
         _race:5,   //Mentak
-        point:0
+        point:0,
+        rank:5
     },{
         _game:3,
         _player:2,  //Tony
         _race:1,   //Sol
-        point:11
+        point:11,
+        rank:1
     },{
         _game:3,
         _player:1,  //Fabien
         _race:5,   //Mentak
-        point:8
+        point:8,
+        rank:2
     },{
         _game:3,
         _player:3,  //Thomas
         _race:17,   //Arborec
-        point:6
+        point:6,
+        rank:3
     },{
         _game:3,
         _player:7,  //Georges
         _race:10,   //Yssaril
-        point:4
+        point:4,
+        rank:4
     },{
         _game:3,
         _player:5,  //Yohan
         _race:3,   //Haccan
-        point:2
+        point:2,
+        rank:5
     },{
         _game:3,
         _player:6,  //Quentin
         _race:11,   //Yin
-        point:1
+        point:1,
+        rank:6
     },{
         _game:3,
         _player:4,  //JF
         _race:9,   //Xxcha
-        point:0
+        point:0,
+        rank:7
     },{
         _game:4,
         _player:4,  //JF
         _race:9,   //Xxcha
         point:10,
-        bonus:2
+        bonus:2,
+        rank:1
     },{
         _game:4,
         _player:1,  //Fabien
         _race:15,   //Winuu
-        point:7
+        point:7,
+        rank:2
     },{
         _game:4,
         _player:2,  //Tony
         _race:14,   //Nekro
-        point:5
+        point:5,
+        rank:3
     },{
         _game:4,
         _player:3,  //Thomas
         _race:6,   //Naalu
-        point:3
+        point:3,
+        rank:4
     },{
         _game:4,
         _player:5,  //Yohan
         _race:4,   //L1Z1X
-        point:1
+        point:1,
+        rank:5
     },{
         _game:4,
         _player:6,  //Quentin
         _race:11,   //Yin
-        point:0
+        point:0,
+        rank:6
     },{
         _game:5,
         _player:7,  //George
         _race:8,   //Jol Nar
         point:10,
-        bonus:2
+        bonus:2,
+        rank:1
     },{
         _game:5,
         _player:6,  //Quentin
         _race:3,   //Haccan
-        point:7
+        point:7,
+        rank:2
     },{
         _game:5,
         _player:3,  //Thomas
         _race:10,   //Yssaril
-        point:5
+        point:5,
+        rank:3
     },{
         _game:5,
         _player:4,  //JF
         _race:4,   //L1Z1X
-        point:3
+        point:3,
+        rank:4
     },{
         _game:5,
         _player:2,  //Tony
         _race:17,   //Arborec
-        point:1
+        point:1,
+        rank:5
     },{
         _game:5,
         _player:8,  //Quentin2voisin
         _race:2,   //Letnev
-        point:0
+        point:0,
+        rank:6
     });
 });

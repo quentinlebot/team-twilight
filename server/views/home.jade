@@ -36,8 +36,29 @@ script.
         });
     }
 
+    function sortByRanking(a, b, index){
+        if(b.rank[index] == undefined)
+            b.rank[index] = 0;
+        if(a.rank[index] == undefined)
+            a.rank[index] = 0;
+
+        if(b.rank[index] - a.rank[index] != 0)
+            return b.rank[index] - a.rank[index];
+        else
+            return sortByRanking(a, b, index++);
+    }
+
     function sortByPoints(a, b){
         return b.point-a.point;
+    }
+
+    function sortGeneralRanking(a, b){
+        if(b.point-a.point != 0){
+            return b.point-a.point;
+        }
+        else{
+            return sortByRanking(a, b, 1);
+        }
     }
 
     function sortByPlayer(a, b){
@@ -88,12 +109,17 @@ script.
                         name:scores.players[game[i]._player-1].name,
                         point:0,
                         nbGame:0,
-                        path:scores.players[game[i]._player-1].path
+                        path:scores.players[game[i]._player-1].path,
+                        rank:[]
                     }
                     playerScores[game[i]._player] = data;
                 }
                 playerScores[game[i]._player].point += game[i].point+game[i].bonus;
                 playerScores[game[i]._player].nbGame++;
+
+                if(playerScores[game[i]._player].rank[game[i].rank] == undefined)
+                    playerScores[game[i]._player].rank[game[i].rank] = 0;
+                playerScores[game[i]._player].rank[game[i].rank]++;
 
                 if(raceStats[game[i]._race] == undefined){
                     var data = {
@@ -108,7 +134,7 @@ script.
                 raceStats[game[i]._race].point += game[i].point+game[i].bonus;
              };
         };
-        playerScores.sort(sortByPoints);
+        playerScores.sort(sortRanking);
         raceStats.sort(sortByPoints);
         // Draw player stats
         for(var i in playerScores){

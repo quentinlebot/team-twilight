@@ -5,6 +5,7 @@ var GameResultSchema = new Schema({
     _game:      Number,
     _player:    Number,
     _race:      Number,
+    rank:      Number,
     point:      Number,
     bonus:      {type:Number, default:0}
 });
