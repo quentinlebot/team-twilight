@@ -8,6 +8,8 @@ router.get('/',         controller.index);
 router.get('/:id',      controller.show);
 router.get('/season/:season_id',      
                         controller.getSeason);
+router.get('/season/:season_id/player/:player_id',      
+                        controller.getBestSeasonPlayer);
 router.get('/game/:game_id',      
                         controller.getGame);
 router.post('/',        auth.isAuthenticated, controller.create);

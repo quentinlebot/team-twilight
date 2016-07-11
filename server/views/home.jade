@@ -23,16 +23,35 @@
 script.
     function getGlobalDatas(cb){
         $.get('/api/games/season/' + 1, function (games) {
-            $.get('/api/players', function (players) {
+            $.get('/api/seasons/'+1+'/players', function (players) {
                 $.get('/api/races', function (races) {
-                    var datas = {
-                        games:games,
-                        races:races,
-                        players:players
-                    };
-                    return cb(datas);
+                    getPlayers(players, 1, function(playersDatas){
+                        var datas = {
+                            games:games,
+                            races:races,
+                            players:playersDatas
+                        };
+                        return cb(datas);
+                    });
                 });
             });
+        });
+    }
+
+    function getPlayers(players_id, season_id, cb){
+        var players = [];
+        var promises = []
+        players_id.forEach(function(item){
+            var request = $.get('/api/players/' + item, function (player) {
+                $.get('/api/gameResults/season/'+season_id+'/player/'+player._id, function(bestFourGame){
+                    player.bestFour = bestFourGame;
+                    players.push(player);
+                });
+            });
+            promises.push(request);
+        });
+        $.when.apply(null, promises).done(function(){
+            return cb(players);
         });
     }
 
@@ -125,7 +144,11 @@ script.
                     }
                     playerScores[game[i]._player] = data;
                 }
-                playerScores[game[i]._player].point += game[i].point+game[i].bonus;
+
+                var bestFour = getDatasById(scores.players, game[i]._player).bestFour;
+                if(bestFour.indexOf(game[i]._id) != -1){
+                    playerScores[game[i]._player].point += game[i].point+game[i].bonus;
+                }
                 playerScores[game[i]._player].nbGame++;
 
                 if(playerScores[game[i]._player].rank[game[i].rank] == undefined)
@@ -146,7 +169,7 @@ script.
                 raceStats[game[i]._race].point += game[i].point+game[i].bonus;
              };
         };
-        playerScores.sort(sortRanking);
+        playerScores.sort(sortGeneralRanking);
         raceStats.sort(sortByPoints);
         // Draw player stats
         for(var i in playerScores){

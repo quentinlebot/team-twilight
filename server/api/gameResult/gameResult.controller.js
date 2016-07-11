@@ -22,6 +22,46 @@ exports.getSeason = function (req, res) {
     });
 };
 
+exports.getSeasonF = function (season_id, cb){
+    var games = Game.find({_season:season_id}, function(err, games){
+        const listGamesId = _(games).map(g=>g._id).value();
+        GameResult.where('_game')
+            .in(listGamesId)
+            .exec(function (err, gameResults) {
+            return cb(gameResults);
+        });
+    });
+}
+
+exports.getBestSeasonPlayer = function (req, res) {
+    var season_id = req.params.season_id;
+    var games = Game.find({_season:season_id}, function(err, games){
+        const listGamesId = _(games).map(g=>g._id).value();
+        GameResult
+            .where('_game').in(listGamesId)
+            .where('_player').in(req.params.player_id)
+            .exec(function (err, gameResults) {
+            if (err) { return handleError(res, err); }
+            var fourBestGameId = [];
+
+            for (var i = 0; i < 4; i++) {
+                var best = {}
+                if(gameResults[0] != undefined){
+                    best = gameResults[0];
+                    for (var j = 1; j < gameResults.length; j++) {
+                        if(gameResults[j].point > best.point){
+                            best = gameResults[j];
+                        }
+                    }
+                    gameResults.splice(gameResults.indexOf(best), 1);
+                    fourBestGameId.push(best._id);
+                }
+            }            
+            return res.status(200).send(fourBestGameId);
+        });
+    });
+}
+
 exports.getGame = function (req, res) {
     GameResult.find({_game:req.params.game_id})
         .exec(function (err, gameResults) {
