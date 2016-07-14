@@ -35,6 +35,34 @@ exports.new = function(req, res) {
     });
 };
 
+exports.newF = function(nbPlayer, gap, cb) {
+    var new_map = {};
+    if(gap == undefined || gap < 5)
+        gap = 8;
+    if(nbPlayer == undefined || nbPlayer > 8 || nbPlayer < 5)
+        nbPlayer = 5;
+    TilePickCtrl.getBaseTiles(nbPlayer, function(stdTiles){
+        new_map._tiles = stdTiles;
+        TilePickCtrl.getGameTiles(nbPlayer, function(gameTiles){
+            new_map._tiles = _.concat(new_map._tiles, gameTiles);
+            var listErrors = [];
+            resolve(nbPlayer, new_map._tiles, function(systems_ok){
+                new_map._tiles = systems_ok;
+                //TilePickCtrl.save(new_map._tiles, function(){
+                    //GameMap.create(new_map, function(err, map) {
+                        //if(err) { return handleError(res, err); }
+                        new_map.stats = buildStats(new_map, nbPlayer);
+                        if(new_map.stats.gap > gap)
+                            return Map.new(nbPlayer, gap, cb);
+                        else
+                            return cb(new_map);
+                    //});
+                //});
+            });
+        });
+    });
+};
+
 exports.show = function(req, res) {
     GameMap.findById(req.params.id, function (err, map) {
         if(err) { return handleError(res, err); }
