@@ -699,71 +699,71 @@ Tile.find({}).remove(function () {
 Race.find({}).remove(function () {
     Race.create({
         _id : 1,
-        path : 'assets/images/races/icon-sol.png',
+        path : 'assets/images/races/LgRnd-Sol.png',
         name : 'Federation of Sol'
     }, {
         _id : 2 ,
-        path : 'assets/images/races/icon-letnev.png',
+        path : 'assets/images/races/LgRnd-Letnev.png',
         name : 'Barony of Letnev'
     }, {
         _id : 3,
-        path : 'assets/images/races/icon-hacan.png',
+        path : 'assets/images/races/LgRnd-Hacan.png',
         name : 'Emirates of Hacan'
     }, {
         _id : 4,
-        path : 'assets/images/races/logo/TheL1z1xMindnet.gif',
+        path : 'assets/images/races/LgRnd-L1z1x.png',
         name : 'L1Z1X Mindnet'
     }, {
         _id : 5,
-        path : 'assets/images/races/logo/TheMentakCoalition.gif',
+        path : 'assets/images/races/LgRnd-Mentak.png',
         name : 'Mentak Coalition'
     }, {
         _id : 6,
-        path : 'assets/images/races/logo/TheNaaluCollective.gif',
+        path : 'assets/images/races/LgRnd-Naalu.png',
         name : 'Naalu Collective'
     }, {
         _id : 7,
-        path : 'assets/images/races/logo/TheSardakkN\'orr.gif',
+        path : 'assets/images/races/LgRnd-Norr.png',
         name : 'Sardakk N’orr'
     }, {
         _id : 8,
-        path : 'assets/images/races/icon-jol-nar.png',
+        path : 'assets/images/races/LgRnd-Jolnar.png',
         name : 'Universities of Jol-Nar'
     }, {
         _id : 9,
-        path : 'assets/images/races/icon-xxcha.png',
+        path : 'assets/images/races/LgRnd-Xxcha.png',
         name : 'Xxcha Kingdom'
     }, {
         _id : 10,
-        path : 'assets/images/races/logo/TheYssarilTribes.gif',
+        path : 'assets/images/races/LgRnd-Yssaril.png',
         name : 'Yssaril Tribes'
     }, {
         _id : 11,
-        path : 'assets/images/races/logo/TheYinBrotherhood.gif',
+        path : 'assets/images/races/LgRnd-Yin.png',
         name : 'Brotherhood of Yin'
     }, {
         _id : 12,
-        path : 'assets/images/races/logo/TheClanOfSaar.gif',
+        path : 'assets/images/races/LgRnd-Saar.png',
         name : 'Clan of Saar'
     }, {
         _id : 13,
-        path : 'assets/images/races/logo/TheEmbersOfMuaat.gif',
+        path : 'assets/images/races/LgRnd-Muaat.png',
         name : 'Embers of Muaat'
     }, {
         _id : 14,
-        path : 'assets/images/races/logo/TheNekroVirus.gif',
+        path : 'assets/images/races/LgRnd-Nekro.png',
         name : 'Nekro Virus'
     }, {
         _id : 15,
-        path : 'assets/images/races/logo/TheWinnu.gif',
+        path : 'assets/images/races/LgRnd-Winnu.png',
         name : 'Winnu'
     }, {
         _id : 16,
-        path : 'assets/images/races/logo/TheGhostsOfCreuss.gif',
+        path : 'assets/images/races/LgRnd-Creuss.png',
         name : 'Ghost of Creuss'
     }, {
         _id : 17,
-        path : 'assets/images/races/logo/TheArborec.gif',
+        path : 'assets/images/races/LgRnd-Arborec.png',
         name : 'Arborec'
     });
     console.log('Création des races');
