@@ -16,6 +16,29 @@ exports.show = function (req, res) {
     });
 };
 
+exports.pick = function (req, res) {
+    var nbPlayer = req.params.nbPlayer;
+    if(nbPlayer > 8) nbPlayer = 8;
+    else if(nbPlayer < 5) nbPlayer = 5;
+
+    Race.find(function (err, races){
+        var nbRacePerPlayer = Math.floor(races.length/nbPlayer);
+        var pick = [];
+        for (var i = 0; i < nbRacePerPlayer; i++) {
+            for (var j = 0; j < nbPlayer; j++) {
+                if(i==0){
+                    var racePick = [];
+                    pick.push(racePick);
+                }
+                var random_i = Math.floor(Math.random() * races.length);
+                pick[j].push(races[random_i]);
+                races.splice(random_i, 1);
+            }
+        }
+        return res.status(200).send(pick);
+    });
+}
+
 exports.create = function (req, res) {
     Race.create(req.body, function (err, race) {
         if (err) { return handleError(res, err); }

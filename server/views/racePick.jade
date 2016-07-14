@@ -1,0 +1,51 @@
+include ./header.jade
+    block content
+        div.container
+            include ./navbar.jade
+            div.page-header
+                h1 Tirage des races
+        div.container-fluid
+            div.col-sm-3
+                div.row
+                    h2 Nombre de joueurs
+                    p.btn-group
+                        button.btn.btn-success.btn-raised#player(value="5") 5
+                        button.btn.btn-success.btn-raised#player(value="6") 6
+                        button.btn.btn-success.btn-raised#player(value="7") 7
+                        button.btn.btn-success.btn-raised#player(value="8") 8
+            div.col-sm-9
+                table.table.table-over#pick
+                    thead#headPick
+                    tbody
+
+script.
+    $(document).ready(function(){ 
+        $("button").click(function(){
+            nbplayer = $(this).val();
+            pickRace();
+        });
+    });
+
+    var nbplayer = 5;
+    pickRace();
+
+    function pickRace(){
+        $("#pick tbody").empty();
+        $("#headPick").empty();
+
+        $.get('/api/races/newPick/' + nbplayer, function (dataPick) {
+            for(var playerIndex = 0; playerIndex < dataPick.length; playerIndex++){
+                if(playerIndex == 0)
+                    $('#headPick').append("<th></th>");
+                var row = "<tr><td><strong> Joueur "+(playerIndex+1)+"</strong></td>";
+                for(var raceIndex = 0; raceIndex < dataPick[playerIndex].length; raceIndex++){
+                    if(playerIndex == 0)
+                        $('#headPick').append("<th></th><th>Choix "+(raceIndex+1)+"</th>")
+                    row += "<td><img style='width:30px;' src=\""+dataPick[playerIndex][raceIndex].path+"\" alt=''/></td><td>"+dataPick[playerIndex][raceIndex].name+"</td>";
+                }
+
+                row += "</tr>";
+                $('#pick').append(row);
+            }
+        });
+    }

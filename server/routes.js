@@ -18,8 +18,8 @@ module.exports = function (app) {
     	res.render('map', { user: req.user});
     });
 
-    app.get('/counter', function (req, res){
-        res.render('counter', {user:req.user});
+    app.get('/racePick', function (req, res){
+        res.render('racePick', {user:req.user});
     });
 
     app.get('/playerboard', function (req, res){
