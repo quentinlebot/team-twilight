@@ -1,5 +1,5 @@
 ﻿var MODE = ['devel', 'test', 'prod'];
-process.env.NODE_ENV = MODE[0];
+process.env.NODE_ENV = process.env.NODE_ENV || MODE[0];
 
 var express =   require('express');
 var mongoose =  require('mongoose');
