@@ -53,7 +53,7 @@ script.
         $.when.apply(null, promises).done(function(){
             return cb(players);
         });
-    }
+    };
 
     function sortByRanking(a, b, index){
         if(b.rank[index] == undefined)
@@ -65,11 +65,11 @@ script.
             return b.rank[index] - a.rank[index];
         else
             return sortByRanking(a, b, index++);
-    }
+    };
 
     function sortByPoints(a, b){
         return b.point-a.point;
-    }
+    };
 
     function sortGeneralRanking(a, b){
         if(b.point-a.point != 0){
@@ -78,15 +78,15 @@ script.
         else{
             return sortByRanking(a, b, 1);
         }
-    }
+    };
 
     function sortById(a, b){
         return a._id-b._id;
-    }
+    };
 
     function sortByPlayer(a, b){
         return a._player-b._player;
-    }
+    };
 
     getGlobalDatas(function(datas){
         showGamesScores(datas);
@@ -97,7 +97,7 @@ script.
             if(datas[i]._id == id)
                 return datas[i];
         }
-    }
+    };
 
     function showGamesScores(datas){
         var promises = [];
@@ -191,9 +191,7 @@ script.
             "paging":   false,
             "info":     false
         });
-    }
-
-
+    };
 
     function chart(scores){
         google.charts.load('current', {packages: ['corechart', 'line']});
@@ -251,5 +249,4 @@ script.
             chart.setSelection([{row: 38, column: 1}]);
             $('rect').attr('fill', '#EEEEEE');
         }
-
-    }
+    };

@@ -11,8 +11,8 @@ exports.new = function(req, res) {
     var gap = req.params.gap;
     if(gap == undefined || gap < 5)
         gap = 8;
-    if(nbPlayer == undefined || nbPlayer > 8 || nbPlayer < 5)
-        nbPlayer = 5;
+    if(nbPlayer == undefined || nbPlayer > 8 || nbPlayer < 4)
+        nbPlayer = 4;
     TilePickCtrl.getBaseTiles(nbPlayer, function(stdTiles){
         new_map._tiles = stdTiles;
         TilePickCtrl.getGameTiles(nbPlayer, function(gameTiles){
@@ -97,8 +97,8 @@ function validSlots(nbPlayer, systems){
     systems.forEach(function(item){
         var valid = isNeighborsValid(systems, item, nbPlayer);
         var isNexus = item._tile.name == Tile.NEXUS;
-        if(item._tile.type != Tile.ANOMALY 
-            && valid 
+        if(item._tile.type != Tile.ANOMALY
+            && valid
             && !isHome(item, nbPlayer)
             && !isNexus) validLst.push(systems.indexOf(item));
     });
