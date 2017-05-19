@@ -52,7 +52,7 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 3,
             techno: ''
-    }]; 
+    }];
     var anomalys = [{
             name: 'Asteroid Field',
             path: 'AsteroidField.gif',
@@ -165,7 +165,7 @@ Tile.find({}).remove(function () {
             ressource: 0,
             influence: 0,
             techno: ''
-    }]; 
+    }];
     var emptys = [{
             name: 'Vide',
             path: 'Vide.gif',
@@ -675,10 +675,10 @@ Tile.find({}).remove(function () {
     }];
 
     var systems = others;
-    var systems = _.concat(systems, emptys);
-    var systems = _.concat(systems, anomalys);
-    var systems = _.concat(systems, homes);
-    var systems = _.concat(systems, regulars);
+    systems = _.concat(systems, emptys);
+    systems = _.concat(systems, anomalys);
+    systems = _.concat(systems, homes);
+    systems = _.concat(systems, regulars);
 
     for (var data in systems) {
         var tile = new Tile();
@@ -688,7 +688,7 @@ Tile.find({}).remove(function () {
         tile.ressource = systems[data].ressource;
         tile.influence = systems[data].influence;
         tile.save();
-    };
+    }
     console.log('Création des systemes TOTAL :'+systems.length+
         ' Autres :'+    others.length+
         ' Mères :'+     homes.length+
@@ -793,8 +793,8 @@ Player.find({}).remove(function(){
         _id : 7 ,
         name : 'Georges'
     }, {
-        _id : 8 ,
-        name : 'Quentin 2'
+        _id : 0,
+        name : 'Invité'
     });
 });
 
@@ -804,6 +804,11 @@ Season.find({}).remove(function(){
         _id:1,
         name: "Saison 1",
         begin:new Date(2015, 06, 01),
+        end:new Date(2016, 10, 24)
+    },{
+        _id:2,
+        name: "Saison 2",
+        begin:new Date(2016, 12, 11),
         end:null
     });
 });
@@ -825,6 +830,12 @@ Game.find({}).remove(function(){
     },{
         _id:5,
         _season:1
+    },{
+        _id:6,
+        _season:1
+    },{
+        _id:7,
+        _season:2
     });
 });
 
@@ -1003,9 +1014,87 @@ GameResult.find({}).remove(function(){
         rank:5
     },{
         _game:5,
-        _player:8,  //Quentin2voisin
+        _player:0,  //Quentin2voisin
         _race:2,   //Letnev
         point:0,
         rank:6
-    });
+    },{
+        _game:6,
+        _player:1,  //Cerise
+        _race:11,   //Yin
+        point:1,
+        rank:6
+    },{
+        _game:6,
+        _player:2,  //Tony
+        _race:9,   //Xxcha
+        point:0,
+        rank:7
+    },{
+        _game:6,
+        _player:3,  //Thomas
+        _race:7,   //Norr
+        point:12,
+        rank:1
+    },{
+        _game:6,
+        _player:4,  //J-F
+        _race:4,   //L1Z1X
+        point:6,
+        rank:3
+    },{
+        _game:6,
+        _player:5,  //Yohan
+        _race:10,   //Yssaril
+        point:4,
+        rank:4
+    },{
+        _game:6,
+        _player:6,  //Quentin
+        _race:13,   //Muat
+        point:8,
+        rank:2
+    },{
+        _game:6,
+        _player:7,  //Georges
+        _race:1,    //Sol
+        point:2,
+        rank:5
+      },{
+        _game:7,
+        _player:1,  // Fabien
+        _race:6,    // Naalu
+        point:10,
+        rank:1
+      },{
+        _game:7,
+        _player:2,  // Tony
+        _race:8,    // Jolnar
+        point:7,
+        rank:2
+      },{
+        _game:7,
+        _player:6,  // Quentin
+        _race:10,   //Yssaril
+        point:2,
+        rank:3
+      },{
+        _game:7,
+        _player:5,  // Yohan
+        _race:15,   // Winnu
+        point:3,
+        rank:4
+      },{
+        _game:7,
+        _player:7,  // Georges
+        _race:9,    // Xxcha
+        point:1,
+        rank:5
+      },{
+        _game:7,
+        _player:3,  // Thomas
+        _race:14,   // Nekro
+        point:0,
+        rank:6
+      });
 });
