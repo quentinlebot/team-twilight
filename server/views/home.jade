@@ -173,7 +173,7 @@ script.
         raceStats.sort(sortByPoints);
         // Draw player stats
         for(var i in playerScores){
-            $('#scoresRow').append("<tr class='success'><td class='row-picture'><img style='width:50px;' class='circle' src='"+playerScores[i].path+"' alt=''></td><td>"+playerScores[i].name+"</td><td class='text-right'><strong>"+playerScores[i].point+"</strong></td><td class='text-right'>"+playerScores[i].nbGame+"</td><td class='text-right'>"+(playerScores[i].point/playerScores[i].nbGame)+"</td><</tr>");
+            $('#scoresRow').append("<tr class='success'><td class='row-picture'><img style='width:50px;' class='circle' src='"+playerScores[i].path+"' alt=''></td><td>"+playerScores[i].name+"</td><td class='text-right'><strong>"+playerScores[i].point+"</strong></td><td class='text-right'>"+playerScores[i].nbGame+"</td><td class='text-right'>"+(Math.round(playerScores[i].point/playerScores[i].nbGame * 100)/100)+"</td><</tr>");
         }
 
         // Draw racial stats
