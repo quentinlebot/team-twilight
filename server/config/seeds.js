@@ -793,7 +793,7 @@ Player.find({}).remove(function(){
         _id : 7 ,
         name : 'Georges'
     }, {
-        _id : 0,
+        _id : 8,
         name : 'Invité'
     });
 });
@@ -1014,7 +1014,7 @@ GameResult.find({}).remove(function(){
         rank:5
     },{
         _game:5,
-        _player:0,  //Quentin2voisin
+        _player:8,  //Quentin2voisin
         _race:2,   //Letnev
         point:0,
         rank:6
