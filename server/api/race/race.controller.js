@@ -19,10 +19,11 @@ exports.show = function (req, res) {
 exports.pick = function (req, res) {
     var nbPlayer = req.params.nbPlayer;
     if(nbPlayer > 8) nbPlayer = 8;
-    else if(nbPlayer < 5) nbPlayer = 5;
+    else if(nbPlayer < 4) nbPlayer = 4;
 
     Race.find(function (err, races){
         var nbRacePerPlayer = Math.floor(races.length/nbPlayer);
+        nbRacePerPlayer = nbRacePerPlayer > 3 ? 3 : nbRacePerPlayer; 
         var pick = [];
         for (var i = 0; i < nbRacePerPlayer; i++) {
             for (var j = 0; j < nbPlayer; j++) {
